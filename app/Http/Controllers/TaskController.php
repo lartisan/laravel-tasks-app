@@ -13,14 +13,15 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-//        return TaskResource::collection(Task::all());
+        $filter = $request->has('filter') ? $request->get('filter') : 'priority';
+        $order = $request->has('order') ? $request->get('order') : 'desc';
+
         $tasks = Task::with(['owner', 'assignee'])
             ->assignedToMe()
             ->createdByMe()
-            ->orderBy('priority', 'desc')
-            //->orderBy('due_date', 'desc')
+            ->orderBy($filter, $order)
             ->get();
 
         return TaskResource::collection($tasks);

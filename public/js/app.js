@@ -2040,13 +2040,55 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "AllTasks",
   props: ['currentUser'],
   data: function data() {
     return {
-      tasks: []
+      tasks: [],
+      filter: 'due_date',
+      order: 'desc'
     };
   },
   mounted: function mounted() {
@@ -2057,7 +2099,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/sanctum/csrf-cookie').then(function (resp) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/tasks', {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/tasks?filter=".concat(_this.filter, "&order=").concat(_this.order), {
           withCredentials: true
         }).then(function (resp) {
           _this.tasks = resp.data.data;
@@ -2101,6 +2143,11 @@ __webpack_require__.r(__webpack_exports__);
           _this2.getTasks();
         });
       });
+    },
+    handleOrder: function handleOrder(filter) {
+      this.filter = filter;
+      if (this.order === 'desc') this.order = 'asc';else this.order = 'desc';
+      this.getTasks();
     }
   }
 });
@@ -3111,12 +3158,230 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "tasks text-xs" }, [
+  return _c("div", { staticClass: "tasks" }, [
     _c("table", { staticClass: "table-auto w-full" }, [
-      _vm._m(0),
+      _c("thead", {}, [
+        _c("tr", [
+          _c("th", { staticClass: "border-b px-4 py-3 text-left" }, [
+            _c(
+              "a",
+              {
+                staticClass:
+                  "flex justify-between items-center focus:border-transparent focus:outline-none",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.handleOrder("title")
+                  }
+                }
+              },
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "svg",
+                  {
+                    staticClass: "h-3 fill-current text-gray-600",
+                    attrs: { viewBox: "0 0 20 20" }
+                  },
+                  [
+                    _vm.filter === "title" && _vm.order === "asc"
+                      ? _c("path", {
+                          attrs: {
+                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
+                          }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.filter === "title" && _vm.order === "desc"
+                      ? _c("path", {
+                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
+                        })
+                      : _vm._e()
+                  ]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-b px-4 py-3" }, [
+            _c(
+              "a",
+              {
+                staticClass:
+                  "flex justify-between items-center focus:border-transparent focus:outline-none",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.handleOrder("assigned_to")
+                  }
+                }
+              },
+              [
+                _c("span", [_vm._v("Assigned To")]),
+                _vm._v(" "),
+                _c(
+                  "svg",
+                  {
+                    staticClass: "h-3 fill-current text-gray-600",
+                    attrs: { viewBox: "0 0 20 20" }
+                  },
+                  [
+                    _vm.filter === "assigned_to" && _vm.order === "asc"
+                      ? _c("path", {
+                          attrs: {
+                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
+                          }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.filter === "assigned_to" && _vm.order === "desc"
+                      ? _c("path", {
+                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
+                        })
+                      : _vm._e()
+                  ]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-b px-4 py-3" }, [
+            _c(
+              "a",
+              {
+                staticClass:
+                  "flex justify-between items-center focus:border-transparent focus:outline-none",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.handleOrder("created_by")
+                  }
+                }
+              },
+              [
+                _c("span", [_vm._v("Assigned To")]),
+                _vm._v(" "),
+                _c(
+                  "svg",
+                  {
+                    staticClass: "h-3 fill-current text-gray-600",
+                    attrs: { viewBox: "0 0 20 20" }
+                  },
+                  [
+                    _vm.filter === "created_by" && _vm.order === "asc"
+                      ? _c("path", {
+                          attrs: {
+                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
+                          }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.filter === "created_by" && _vm.order === "desc"
+                      ? _c("path", {
+                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
+                        })
+                      : _vm._e()
+                  ]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-b px-4 py-3" }, [
+            _c(
+              "a",
+              {
+                staticClass:
+                  "flex justify-between items-center focus:border-transparent focus:outline-none",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.handleOrder("priority")
+                  }
+                }
+              },
+              [
+                _c("span", [_vm._v("Priority")]),
+                _vm._v(" "),
+                _c(
+                  "svg",
+                  {
+                    staticClass: "h-3 fill-current text-gray-600",
+                    attrs: { viewBox: "0 0 20 20" }
+                  },
+                  [
+                    _vm.filter === "priority" && _vm.order === "asc"
+                      ? _c("path", {
+                          attrs: {
+                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
+                          }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.filter === "priority" && _vm.order === "desc"
+                      ? _c("path", {
+                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
+                        })
+                      : _vm._e()
+                  ]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-b px-4 py-3 text-right" }, [
+            _c(
+              "a",
+              {
+                staticClass:
+                  "flex justify-between items-center focus:border-transparent focus:outline-none",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.handleOrder("due_date")
+                  }
+                }
+              },
+              [
+                _c("span", [_vm._v("Due Date")]),
+                _vm._v(" "),
+                _c(
+                  "svg",
+                  {
+                    staticClass: "h-3 fill-current text-gray-600",
+                    attrs: { viewBox: "0 0 20 20" }
+                  },
+                  [
+                    _vm.filter === "due_date" && _vm.order === "asc"
+                      ? _c("path", {
+                          attrs: {
+                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
+                          }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.filter === "due_date" && _vm.order === "desc"
+                      ? _c("path", {
+                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
+                        })
+                      : _vm._e()
+                  ]
+                )
+              ]
+            )
+          ])
+        ])
+      ]),
       _vm._v(" "),
       _c(
         "tbody",
+        { staticClass: "text-xs" },
         _vm._l(_vm.tasks, function(task, key) {
           return _c(
             "tr",
@@ -3133,7 +3398,7 @@ var render = function() {
               _c(
                 "td",
                 {
-                  staticClass: "border-b px-4 py-2",
+                  staticClass: "border-b px-4 py-3",
                   class: { "line-through text-gray-400": task.completed }
                 },
                 [_vm._v(_vm._s(task.title))]
@@ -3142,7 +3407,39 @@ var render = function() {
               _c(
                 "td",
                 {
-                  staticClass: "border-b px-4 py-2 text-center",
+                  staticClass: "border-b px-4 py-3 text-center",
+                  class: { "line-through text-gray-400": task.completed }
+                },
+                [
+                  _vm._v(
+                    _vm._s(
+                      task.assignee === _vm.currentUser.name
+                        ? "Me"
+                        : task.assignee
+                    )
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                {
+                  staticClass: "border-b px-4 py-3 text-center",
+                  class: { "line-through text-gray-400": task.completed }
+                },
+                [
+                  _vm._v(
+                    _vm._s(
+                      task.owner === _vm.currentUser.name ? "Me" : task.owner
+                    )
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                {
+                  staticClass: "border-b px-4 py-3 text-center",
                   class: { "line-through text-gray-400": task.completed }
                 },
                 [
@@ -3160,39 +3457,7 @@ var render = function() {
               _c(
                 "td",
                 {
-                  staticClass: "border-b px-4 py-2 text-center",
-                  class: { "line-through text-gray-400": task.completed }
-                },
-                [
-                  _vm._v(
-                    _vm._s(
-                      task.assignee === _vm.currentUser.name
-                        ? "Me"
-                        : task.assignee
-                    )
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "td",
-                {
-                  staticClass: "border-b px-4 py-2 text-center",
-                  class: { "line-through text-gray-400": task.completed }
-                },
-                [
-                  _vm._v(
-                    _vm._s(
-                      task.owner === _vm.currentUser.name ? "Me" : task.owner
-                    )
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "td",
-                {
-                  staticClass: "border-b px-4 py-2 text-right",
+                  staticClass: "border-b px-4 py-3 text-right",
                   class: { "line-through text-gray-400": task.completed }
                 },
                 [_vm._v(_vm._s(task.dueDate))]
@@ -3210,28 +3475,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", { staticClass: "border-b px-4 py-2 text-left" }, [
-          _vm._v("\n                    Task\n                    "),
-          _c("span", { staticClass: "text-gray-500 font-hairline" }, [
-            _vm._v("(Click on a row to complete/uncomplete a task)")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "border-b px-4 py-2" }, [_vm._v("Priority")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "border-b px-4 py-2" }, [
-          _vm._v("Assigned To")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "border-b px-4 py-2" }, [
-          _vm._v("Assigned By")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "border-b px-4 py-2 text-right" }, [
-          _vm._v("Due Date")
-        ])
+    return _c("span", [
+      _vm._v(
+        "\n                            Task\n                            "
+      ),
+      _c("small", { staticClass: "text-xs text-gray-500 font-hairline" }, [
+        _vm._v("(Click on a row to complete/uncomplete a task)")
       ])
     ])
   }
