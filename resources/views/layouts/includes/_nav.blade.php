@@ -14,12 +14,6 @@
                         Login
                     </a>
                 @else
-                    <a class="uppercase tracking-wide font-bold text-xs hover:text-gray-800" href="#">
-                        Tasks
-                    </a>
-                    <a class="uppercase tracking-wide font-bold text-xs hover:text-gray-800" href="#">
-                        Users
-                    </a>
                     <a class="uppercase tracking-wide font-bold text-xs hover:text-gray-800" href="{{ route('logout') }}"
                        onclick="event.preventDefault();
                        document.getElementById('logout-form').submit();">
