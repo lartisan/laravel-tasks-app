@@ -2371,6 +2371,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "TasksCreatedByMe",
@@ -2443,6 +2452,15 @@ __webpack_require__.r(__webpack_exports__);
       this.filter = filter;
       if (this.order === 'desc') this.order = 'asc';else this.order = 'desc';
       this.getTasks();
+    },
+    deleteTask: function deleteTask(task) {
+      var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/sanctum/csrf-cookie').then(function (resp) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]("/api/tasks/".concat(task.id), task).then(function (resp) {
+          _this3.getTasks();
+        });
+      });
     }
   }
 });
@@ -3564,6 +3582,8 @@ var render = function() {
     _c("table", { staticClass: "table-auto w-full" }, [
       _c("thead", {}, [
         _c("tr", [
+          _c("th", { staticClass: "border-b px-4 py-3" }),
+          _vm._v(" "),
           _c("th", { staticClass: "border-b px-4 py-3 text-left" }, [
             _c(
               "a",
@@ -3693,49 +3713,6 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("th", { staticClass: "border-b px-4 py-3 text-center" }, [
-            _c(
-              "a",
-              {
-                staticClass:
-                  "flex justify-between items-center focus:border-transparent focus:outline-none",
-                attrs: { href: "#" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.handleOrder("completed")
-                  }
-                }
-              },
-              [
-                _c("span", [_vm._v("Completed")]),
-                _vm._v(" "),
-                _c(
-                  "svg",
-                  {
-                    staticClass: "h-3 fill-current text-gray-600",
-                    attrs: { viewBox: "0 0 20 20" }
-                  },
-                  [
-                    _vm.filter === "completed" && _vm.order === "asc"
-                      ? _c("path", {
-                          attrs: {
-                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
-                          }
-                        })
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.filter === "completed" && _vm.order === "desc"
-                      ? _c("path", {
-                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
-                        })
-                      : _vm._e()
-                  ]
-                )
-              ]
-            )
-          ]),
-          _vm._v(" "),
           _c("th", { staticClass: "border-b px-4 py-3 text-right" }, [
             _c(
               "a",
@@ -3785,79 +3762,99 @@ var render = function() {
         "tbody",
         { staticClass: "text-xs" },
         _vm._l(_vm.tasks, function(task, key) {
-          return _c(
-            "tr",
-            {
-              key: key,
-              staticClass: "hover:bg-gray-200 cursor-pointer",
-              on: {
-                click: function($event) {
-                  return _vm.toggleCompleted(task)
-                }
-              }
-            },
-            [
+          return _c("tr", { key: key, staticClass: "hover:bg-gray-200" }, [
+            _c("td", { staticClass: "border-b px-4 py-3" }, [
               _c(
-                "td",
+                "button",
                 {
-                  staticClass: "border-b px-4 py-3",
-                  class: { "line-through text-gray-400": task.completed }
-                },
-                [_vm._v(_vm._s(task.title))]
-              ),
-              _vm._v(" "),
-              _c(
-                "td",
-                {
-                  staticClass: "border-b px-4 py-3 text-center",
-                  class: { "line-through text-gray-400": task.completed }
-                },
-                [
-                  _vm._v(
-                    _vm._s(
-                      task.owner === _vm.currentUser.name ? "Me" : task.owner
-                    )
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "td",
-                {
-                  staticClass: "border-b px-4 py-3 text-center",
-                  class: { "line-through text-gray-400": task.completed }
+                  staticClass: "focus:outline-none focus:border-transparent",
+                  on: {
+                    click: function($event) {
+                      return _vm.toggleCompleted(task)
+                    }
+                  }
                 },
                 [
                   _c(
-                    "span",
+                    "svg",
                     {
-                      staticClass: "text-white text-xs ml-2 px-2 rounded-full",
-                      class: _vm.badgeClass(task)
+                      staticClass: "h-5 fill-current",
+                      attrs: { viewBox: "0 0 32 32" }
                     },
-                    [_vm._v(_vm._s(task.priority))]
+                    [
+                      task.completed
+                        ? _c("path", {
+                            staticClass: "text-green-600",
+                            attrs: {
+                              d:
+                                "M4 4v24h24V12.187l-2 2V26H6V6h19.813l2-2zm23.281 3.281L16 18.563l-4.281-4.282-1.438 1.438 5 5 .719.687.719-.687 12-12z"
+                            }
+                          })
+                        : _vm._e(),
+                      _vm._v(" "),
+                      !task.completed
+                        ? _c("path", {
+                            staticClass: "text-gray-500",
+                            attrs: { d: "M6 6v20h20V6zm2 2h16v16H8z" }
+                          })
+                        : _vm._e()
+                    ]
                   )
                 ]
-              ),
-              _vm._v(" "),
-              _c(
-                "td",
-                {
-                  staticClass: "border-b px-4 py-3 text-center",
-                  class: { "line-through text-gray-400": task.completed }
-                },
-                [_vm._v(_vm._s(task.completed ? "Yes" : "No"))]
-              ),
-              _vm._v(" "),
-              _c(
-                "td",
-                {
-                  staticClass: "border-b px-4 py-3 text-right",
-                  class: { "line-through text-gray-400": task.completed }
-                },
-                [_vm._v(_vm._s(task.dueDate))]
               )
-            ]
-          )
+            ]),
+            _vm._v(" "),
+            _c(
+              "td",
+              {
+                staticClass: "border-b px-4 py-3",
+                class: { "line-through text-gray-400": task.completed }
+              },
+              [_vm._v(_vm._s(task.title))]
+            ),
+            _vm._v(" "),
+            _c(
+              "td",
+              {
+                staticClass: "border-b px-4 py-3",
+                class: { "line-through text-gray-400": task.completed }
+              },
+              [
+                _vm._v(
+                  _vm._s(
+                    task.ownerId === _vm.currentUser.id ? "Me" : task.owner
+                  )
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "td",
+              {
+                staticClass: "border-b px-4 py-3",
+                class: { "line-through text-gray-400": task.completed }
+              },
+              [
+                _c(
+                  "span",
+                  {
+                    staticClass: "text-white text-xs ml-2 px-2 rounded-full",
+                    class: _vm.badgeClass(task)
+                  },
+                  [_vm._v(_vm._s(task.priority))]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "td",
+              {
+                staticClass: "border-b px-4 py-3",
+                class: { "line-through text-gray-400": task.completed }
+              },
+              [_vm._v(_vm._s(task.dueDate))]
+            )
+          ])
         }),
         0
       )
@@ -3904,6 +3901,8 @@ var render = function() {
     _c("table", { staticClass: "table-auto w-full" }, [
       _c("thead", {}, [
         _c("tr", [
+          _c("th", { staticClass: "border-b px-4 py-3 text-center" }),
+          _vm._v(" "),
           _c("th", { staticClass: "border-b px-4 py-3 text-left" }, [
             _c(
               "a",
@@ -3919,8 +3918,9 @@ var render = function() {
                 }
               },
               [
-                _vm._m(0),
-                _vm._v(" "),
+                _vm._v(
+                  "\n                        Task\n                        "
+                ),
                 _c(
                   "svg",
                   {
@@ -4033,50 +4033,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("th", { staticClass: "border-b px-4 py-3 text-center" }, [
-            _c(
-              "a",
-              {
-                staticClass:
-                  "flex justify-between items-center focus:border-transparent focus:outline-none",
-                attrs: { href: "#" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.handleOrder("completed")
-                  }
-                }
-              },
-              [
-                _c("span", [_vm._v("Completed")]),
-                _vm._v(" "),
-                _c(
-                  "svg",
-                  {
-                    staticClass: "h-3 fill-current text-gray-600",
-                    attrs: { viewBox: "0 0 20 20" }
-                  },
-                  [
-                    _vm.filter === "completed" && _vm.order === "asc"
-                      ? _c("path", {
-                          attrs: {
-                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
-                          }
-                        })
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.filter === "completed" && _vm.order === "desc"
-                      ? _c("path", {
-                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
-                        })
-                      : _vm._e()
-                  ]
-                )
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("th", { staticClass: "border-b px-4 py-3 text-right" }, [
+          _c("th", { staticClass: "border-b px-4 py-3" }, [
             _c(
               "a",
               {
@@ -4117,7 +4074,9 @@ var render = function() {
                 )
               ]
             )
-          ])
+          ]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-b px-4 py-3" })
         ])
       ]),
       _vm._v(" "),
@@ -4125,102 +4084,140 @@ var render = function() {
         "tbody",
         { staticClass: "text-xs" },
         _vm._l(_vm.tasks, function(task, key) {
-          return _c(
-            "tr",
-            {
-              key: key,
-              staticClass: "hover:bg-gray-200 cursor-pointer",
-              on: {
-                click: function($event) {
-                  return _vm.toggleCompleted(task)
-                }
-              }
-            },
-            [
+          return _c("tr", { key: key, staticClass: "hover:bg-gray-200" }, [
+            _c("td", { staticClass: "border-b px-4 py-3" }, [
               _c(
-                "td",
+                "button",
                 {
-                  staticClass: "border-b px-4 py-3",
-                  class: { "line-through text-gray-400": task.completed }
-                },
-                [_vm._v(_vm._s(task.title))]
-              ),
-              _vm._v(" "),
-              _c(
-                "td",
-                {
-                  staticClass: "border-b px-4 py-3 text-center",
-                  class: { "line-through text-gray-400": task.completed }
-                },
-                [
-                  _vm._v(
-                    _vm._s(
-                      task.assignee === _vm.currentUser.name
-                        ? "Me"
-                        : task.assignee
-                    )
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "td",
-                {
-                  staticClass: "border-b px-4 py-3 text-center",
-                  class: { "line-through text-gray-400": task.completed }
+                  staticClass: "focus:outline-none focus:border-transparent",
+                  on: {
+                    click: function($event) {
+                      return _vm.toggleCompleted(task)
+                    }
+                  }
                 },
                 [
                   _c(
-                    "span",
+                    "svg",
                     {
-                      staticClass: "text-white text-xs ml-2 px-2 rounded-full",
-                      class: _vm.badgeClass(task)
+                      staticClass: "h-5 fill-current",
+                      attrs: { viewBox: "0 0 32 32" }
                     },
-                    [_vm._v(_vm._s(task.priority))]
+                    [
+                      task.completed
+                        ? _c("path", {
+                            staticClass: "text-green-600",
+                            attrs: {
+                              d:
+                                "M4 4v24h24V12.187l-2 2V26H6V6h19.813l2-2zm23.281 3.281L16 18.563l-4.281-4.282-1.438 1.438 5 5 .719.687.719-.687 12-12z"
+                            }
+                          })
+                        : _vm._e(),
+                      _vm._v(" "),
+                      !task.completed
+                        ? _c("path", {
+                            staticClass: "text-gray-500",
+                            attrs: { d: "M6 6v20h20V6zm2 2h16v16H8z" }
+                          })
+                        : _vm._e()
+                    ]
                   )
                 ]
-              ),
-              _vm._v(" "),
-              _c(
-                "td",
-                {
-                  staticClass: "border-b px-4 py-3 text-center",
-                  class: { "line-through text-gray-400": task.completed }
-                },
-                [_vm._v(_vm._s(task.completed ? "Yes" : "No"))]
-              ),
-              _vm._v(" "),
-              _c(
-                "td",
-                {
-                  staticClass: "border-b px-4 py-3 text-right",
-                  class: { "line-through text-gray-400": task.completed }
-                },
-                [_vm._v(_vm._s(task.dueDate))]
               )
-            ]
-          )
+            ]),
+            _vm._v(" "),
+            _c(
+              "td",
+              {
+                staticClass: "border-b px-4 py-3",
+                class: { "line-through text-gray-400": task.completed }
+              },
+              [_vm._v(_vm._s(task.title))]
+            ),
+            _vm._v(" "),
+            _c(
+              "td",
+              {
+                staticClass: "border-b px-4 py-3",
+                class: { "line-through text-gray-400": task.completed }
+              },
+              [
+                _vm._v(
+                  _vm._s(
+                    task.assigneeId === _vm.currentUser.id
+                      ? "Me"
+                      : task.assignee
+                  )
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "td",
+              {
+                staticClass: "border-b px-4 py-3",
+                class: { "line-through text-gray-400": task.completed }
+              },
+              [
+                _c(
+                  "span",
+                  {
+                    staticClass: "text-white text-xs ml-2 px-2 rounded-full",
+                    class: _vm.badgeClass(task)
+                  },
+                  [_vm._v(_vm._s(task.priority))]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "td",
+              {
+                staticClass: "border-b px-4 py-3",
+                class: { "line-through text-gray-400": task.completed }
+              },
+              [_vm._v(_vm._s(task.dueDate))]
+            ),
+            _vm._v(" "),
+            _c("td", { staticClass: "border-b px-4 py-3" }, [
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "focus:outline-none focus:border-transparent text-gray-400 hover:text-red-600",
+                  on: {
+                    click: function($event) {
+                      return _vm.deleteTask(task)
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "svg",
+                    {
+                      staticClass: "h-4 fill-current",
+                      attrs: { viewBox: "0 0 92 92" }
+                    },
+                    [
+                      _c("path", {
+                        attrs: {
+                          d:
+                            "M78.4 30.4l-3.1 57.8c-.1 2.1-1.9 3.8-4 3.8H20.7c-2.1 0-3.9-1.7-4-3.8l-3.1-57.8c-.1-2.2 1.6-4.1 3.8-4.2 2.2-.1 4.1 1.6 4.2 3.8l2.9 54h43.1l2.9-54c.1-2.2 2-3.9 4.2-3.8 2.1.1 3.8 2 3.7 4.2zM89 17c0 2.2-1.8 4-4 4H7c-2.2 0-4-1.8-4-4s1.8-4 4-4h22V4c0-1.9 1.3-3 3.2-3h27.6C61.7 1 63 2.1 63 4v9h22c2.2 0 4 1.8 4 4zm-53-4h20V8H36v5zm1.7 65c2 0 3.5-1.9 3.5-3.8l-1-43.2c0-1.9-1.6-3.5-3.6-3.5-1.9 0-3.5 1.6-3.4 3.6l1 43.3c0 1.9 1.6 3.6 3.5 3.6zm16.5 0c1.9 0 3.5-1.6 3.5-3.5l1-43.2c0-1.9-1.5-3.6-3.4-3.6-2 0-3.5 1.5-3.6 3.4l-1 43.2c-.1 2 1.5 3.7 3.5 3.7-.1 0-.1 0 0 0z"
+                        }
+                      })
+                    ]
+                  )
+                ]
+              )
+            ])
+          ])
         }),
         0
       )
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", [
-      _vm._v(
-        "\n                            Task\n                            "
-      ),
-      _c("small", { staticClass: "text-xs text-gray-500 font-hairline" }, [
-        _vm._v("(Click on a row to complete/uncomplete a task)")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

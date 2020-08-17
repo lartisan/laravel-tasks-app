@@ -47,7 +47,7 @@ class TaskController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Task  $task
+     * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Task $task)
@@ -60,11 +60,15 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Task  $task
+     * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
     public function destroy(Task $task)
     {
-        //
+        $task->delete();
+
+        return response()->json([
+            'status' => 'ok'
+        ]);
     }
 }

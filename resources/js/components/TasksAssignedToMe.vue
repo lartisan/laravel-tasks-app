@@ -3,6 +3,9 @@
         <table class="table-auto w-full">
             <thead class="">
                 <tr>
+                    <!-- Completed -->
+                    <th class="border-b px-4 py-3"></th>
+
                     <!-- Title -->
                     <th class="border-b px-4 py-3 text-left">
                         <a href="#" @click.prevent="handleOrder('title')" class="flex justify-between items-center focus:border-transparent focus:outline-none">
@@ -39,17 +42,6 @@
                         </a>
                     </th>
 
-                    <!-- Completed -->
-                    <th class="border-b px-4 py-3 text-center">
-                        <a href="#" @click.prevent="handleOrder('completed')" class="flex justify-between items-center focus:border-transparent focus:outline-none">
-                            <span>Completed</span>
-                            <svg class="h-3 fill-current text-gray-600" viewBox="0 0 20 20">
-                                <path v-if="filter === 'completed' && order === 'asc'" d="M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"/>
-                                <path v-if="filter === 'completed' && order === 'desc'" d="M10 .75L15.5 6H12v13H8V6H4.5L10 .75z"/>
-                            </svg>
-                        </a>
-                    </th>
-
                     <!-- Due Date -->
                     <th class="border-b px-4 py-3 text-right">
                         <a href="#" @click.prevent="handleOrder('due_date')" class="flex justify-between items-center focus:border-transparent focus:outline-none">
@@ -67,17 +59,25 @@
                 <tr
                     v-for="(task, key) in tasks"
                     :key="key"
-                    @click="toggleCompleted(task)"
-                    class="hover:bg-gray-200 cursor-pointer"
+                    class="hover:bg-gray-200"
                 >
+                    <td class="border-b px-4 py-3">
+                        <button
+                            @click="toggleCompleted(task)"
+                            class="focus:outline-none focus:border-transparent"
+                        >
+                            <svg class="h-5 fill-current" viewBox="0 0 32 32">
+                                <path class="text-green-600" v-if="task.completed" d="M4 4v24h24V12.187l-2 2V26H6V6h19.813l2-2zm23.281 3.281L16 18.563l-4.281-4.282-1.438 1.438 5 5 .719.687.719-.687 12-12z"/>
+                                <path class="text-gray-500" v-if="!task.completed" d="M6 6v20h20V6zm2 2h16v16H8z"/>
+                            </svg>
+                        </button>
+                    </td>
                     <td :class="{ 'line-through text-gray-400': task.completed }" class="border-b px-4 py-3">{{ task.title }}</td>
-                    <td :class="{ 'line-through text-gray-400': task.completed }" class="border-b px-4 py-3 text-center">{{ task.owner === currentUser.name ? 'Me' : task.owner }}</td>
-                    <td :class="{ 'line-through text-gray-400': task.completed }" class="border-b px-4 py-3 text-center">
+                    <td :class="{ 'line-through text-gray-400': task.completed }" class="border-b px-4 py-3">{{ task.ownerId === currentUser.id ? 'Me' : task.owner }}</td>
+                    <td :class="{ 'line-through text-gray-400': task.completed }" class="border-b px-4 py-3">
                         <span :class="badgeClass(task)" class="text-white text-xs ml-2 px-2 rounded-full">{{ task.priority }}</span>
                     </td>
-                    <td :class="{ 'line-through text-gray-400': task.completed }" class="border-b px-4 py-3 text-center">{{ task.completed ? 'Yes' : 'No' }}</td>
-                    <td :class="{ 'line-through text-gray-400': task.completed }" class="border-b px-4 py-3 text-right">{{ task.dueDate }}</td>
-                </tr>
+                    <td :class="{ 'line-through text-gray-400': task.completed }" class="border-b px-4 py-3">{{ task.dueDate }}</td>                </tr>
             </tbody>
         </table>
     </div>
