@@ -11,6 +11,9 @@ class TaskSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Task::class, 100)->create();
+        factory(\App\Task::class, 10)->states('admin')->create();
+        factory(\App\Task::class, 15)->states('manager')->create();
+        factory(\App\Task::class, 20)->states('team-leader')->create();
+        factory(\App\Task::class, 30)->states('staff')->create();
     }
 }

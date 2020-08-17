@@ -35,29 +35,27 @@
         </div>
 
         <!-- Panel Footer -->
-        <div class="panel-footer text-gray-500 border-t border-gray-300 text-sm px-10 py-6 flex justify-between items-center">
-            <p>All Tasks: 100</p>
-            <p>Completed Tasks: 73</p>
-            <p>Uncompleted Tasks: 27</p>
-        </div>
+<!--        <div class="panel-footer text-gray-500 border-t border-gray-300 text-sm px-10 py-6 flex justify-between items-center">-->
+<!--            <p>All Tasks: 100</p>-->
+<!--            <p>Completed Tasks: 73</p>-->
+<!--            <p>Uncompleted Tasks: 27</p>-->
+<!--        </div>-->
     </div>
 </template>
 
 <script>
-import TasksAssignedToMe from "./TasksAssignedToMe";
-import TasksCreatedByMe from "./TasksCreatedByMe";
+import AllMyTasks from "./AllMyTasks";
 import AddNewTask from "./AddNewTask";
 export default {
     name: "TasksAppPanel",
     props: ['currentUser'],
-    components: {TasksAssignedToMe, TasksCreatedByMe, AddNewTask},
+    components: {AllMyTasks, AddNewTask},
     data() {
         return {
             isOpen: false,
-            currentPanel: 'TasksAssignedToMe',
+            currentPanel: 'AllMyTasks',
             panels: {
-                TasksAssignedToMe: 'Tasks Assigned To Me',
-                TasksCreatedByMe: 'Tasks Created By Me',
+                AllMyTasks: 'All My Tasks',
                 AddNewTask: 'Add New Task'
             }
         }
@@ -69,7 +67,7 @@ export default {
     },
     created() {
         if( localStorage.getItem("current-panel") == 'null' )
-            this.currentPanel = 'TasksAssignedToMe'
+            this.currentPanel = 'AllMyTasks'
         else
             this.currentPanel = localStorage.getItem("current-panel")
     }

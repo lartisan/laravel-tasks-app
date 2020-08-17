@@ -12,10 +12,15 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        factory(User::class)->create([
-            'name' => 'Cristian Iosif',
-            'email' => 'cristianiosif@me.com'
-        ]);
-        factory(User::class, 2)->create();
+        $users = [
+            ['name' => 'Admin',         'email' => 'admin@example.com',         'role' => 'admin',          'role_rank' => 1],
+            ['name' => 'Manager',       'email' => 'manager@example.com',       'role' => 'manager',        'role_rank' => 2],
+            ['name' => 'TeamLeader',    'email' => 'teamleader@example.com',    'role' => 'team-leader',    'role_rank' => 3],
+            ['name' => 'Staff',         'email' => 'staff@example.com',         'role' => 'staff',          'role_rank' => 4],
+        ];
+
+        foreach($users as $user) {
+            factory(User::class)->create($user);
+        }
     }
 }

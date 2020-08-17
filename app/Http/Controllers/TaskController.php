@@ -24,6 +24,7 @@ class TaskController extends Controller
             : 'desc';
 
         $tasks = Task::with(['owner', 'assignee'])
+            ->assignedToMe()
             ->orderBy($filter, $order)
             ->get();
 
@@ -60,11 +61,15 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * Gate defined in \App\Providers\AuthServiceProvider
+     *
      * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
     public function destroy(Task $task)
     {
+        $this->authorize('delete-task', $task);
+
         $task->delete();
 
         return response()->json([

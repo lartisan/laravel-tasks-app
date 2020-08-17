@@ -29,6 +29,7 @@
                 <div class="inline-block relative w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="assigned_to">Assigned To</label>
                     <select v-model="formData.assigned_to" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-4 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="assigned_to">
+                        <option :value="currentUser.id">Me</option>
                         <option
                             v-for="(user, key) in users"
                             :key="key"
@@ -52,8 +53,7 @@
             </div>
 
             <div class="flex items-center">
-                <button class="shadow bg-red-500 hover:bg-red-400 focus:shadow-outline focus:outline-none uppercase tracking-wide text-white text-xs font-bold py-2 px-4 rounded" type="submit">Save</button>
-                <a class="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none uppercase tracking-wide text-white text-xs font-bold py-2 px-4 ml-4 rounded" href="#">Cancel</a>
+                <button class="shadow bg-indigo-500 hover:bg-indigo-700 focus:shadow-outline focus:outline-none uppercase tracking-wide text-white text-xs font-bold py-2 px-4 rounded" type="submit">Save</button>
             </div>
 
         </form>
@@ -93,8 +93,7 @@ export default {
         getUsers() {
             axios.get('/sanctum/csrf-cookie', { withCredentials: true }).then(resp => {
                 axios.get('/api/users').then(resp => {
-                    this.users[this.currentUser.id] = 'Me'
-                    this.users = { ...this.users, ...resp.data }
+                    this.users = resp.data
                 })
             })
         }

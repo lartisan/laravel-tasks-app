@@ -72,15 +72,4 @@ class Task extends Model
         return $query->where('assigned_to', auth()->id());
     }
 
-    /**
-     * Get all the tasks created by the authenticated user
-     *
-     * @param Builder $query
-     * @return mixed
-     */
-    public function scopeCreatedByMe(Builder $query)
-    {
-        return $query->where('created_by', auth()->id());
-    }
-
 }
