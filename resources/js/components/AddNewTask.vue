@@ -85,7 +85,7 @@ export default {
         createNewTask() {
             axios.get('/sanctum/csrf-cookie', { withCredentials: true }).then(resp => {
                 axios.post('/api/tasks', this.formData).then(resp => {
-                    localStorage.setItem('current-panel', 'TasksCreatedByMe');
+                    localStorage.setItem('current-panel', 'AllMyTasks');
                     location.reload()
                 })
             })

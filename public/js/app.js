@@ -2003,7 +2003,7 @@ __webpack_require__.r(__webpack_exports__);
         withCredentials: true
       }).then(function (resp) {
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/tasks', _this.formData).then(function (resp) {
-          localStorage.setItem('current-panel', 'TasksCreatedByMe');
+          localStorage.setItem('current-panel', 'AllMyTasks');
           location.reload();
         });
       });

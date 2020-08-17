@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7821342c-2040-4cea-b2e1-67e02746c32d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/AddNewTask.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/AddNewTask.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,7 +175,7 @@
       <option name="presentableId" value="Default" />
       <updated>1597650358993</updated>
       <workItem from="1597650360123" duration="34941000" />
-      <workItem from="1597695575217" duration="782000" />
+      <workItem from="1597695575217" duration="1453000" />
     </task>
     <servers />
   </component>
@@ -183,10 +183,10 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="385" y="213" width="670" height="676" key="search.everywhere.popup" timestamp="1597695705788">
+    <state x="385" y="213" width="670" height="676" key="search.everywhere.popup" timestamp="1597696379904">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="385" y="213" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/-1920.0.1920.1080@0.0.1440.900" timestamp="1597695705788" />
+    <state x="385" y="213" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/-1920.0.1920.1080@0.0.1440.900" timestamp="1597696379904" />
     <state x="385" y="213" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/-1920.23.1920.1057@0.0.1440.900" timestamp="1597688186554" />
   </component>
 </project>
