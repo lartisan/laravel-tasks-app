@@ -44,22 +44,20 @@
 </template>
 
 <script>
-import AllTasks from "./AllTasks";
-import CompletedTasks from "./CompletedTasks";
-import UncompletedTasks from "./UncompletedTasks";
+import TasksAssignedToMe from "./TasksAssignedToMe";
+import TasksCreatedByMe from "./TasksCreatedByMe";
 import AddNewTask from "./AddNewTask";
 export default {
     name: "TasksAppPanel",
     props: ['currentUser'],
-    components: {AllTasks, CompletedTasks, UncompletedTasks, AddNewTask},
+    components: {TasksAssignedToMe, TasksCreatedByMe, AddNewTask},
     data() {
         return {
             isOpen: false,
-            currentPanel: 'AllTasks',
+            currentPanel: 'TasksAssignedToMe',
             panels: {
-                AllTasks: 'All Tasks',
-                CompletedTasks: 'Completed Tasks',
-                UncompletedTasks: 'Uncompleted Tasks',
+                TasksAssignedToMe: 'Tasks Assigned To Me',
+                TasksCreatedByMe: 'Tasks Created By Me',
                 AddNewTask: 'Add New Task'
             }
         }
@@ -71,7 +69,7 @@ export default {
     },
     created() {
         if( localStorage.getItem("current-panel") == 'null' )
-            this.currentPanel = 'AllTasks'
+            this.currentPanel = 'TasksAssignedToMe'
         else
             this.currentPanel = localStorage.getItem("current-panel")
     }

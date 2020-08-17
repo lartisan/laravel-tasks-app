@@ -18,6 +18,8 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "tailwindcss": "^1.6.2"
+        "dayjs": "^1.8.33",
+        "tailwindcss": "^1.6.2",
+        "vue-tailwind-picker": "^1.1.4"
     }
 }

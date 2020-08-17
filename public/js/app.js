@@ -1910,6 +1910,15 @@ module.exports = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_tailwind_picker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-tailwind-picker */ "./node_modules/vue-tailwind-picker/dist/vue-tailwind-picker.esm.js");
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1963,15 +1972,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "AllTasks",
+  name: "AddNewTask",
+  props: ['currentUser'],
+  components: {
+    VueTailwindPicker: vue_tailwind_picker__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
   data: function data() {
     return {
+      priorities: ['low', 'medium', 'high', 'critical'],
+      users: [],
       formData: {
         title: '',
-        created_by: '',
-        assigned_to: '',
-        priority: '',
+        created_by: this.currentUser.id,
+        assigned_to: 1,
+        priority: 3,
         due_date: '',
         errors: []
       }
@@ -1984,8 +2000,9 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/sanctum/csrf-cookie', {
         withCredentials: true
       }).then(function (resp) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('tasks', _this.formData).then(function (resp) {
-          console.log(resp.data);
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/tasks', _this.formData).then(function (resp) {
+          localStorage.setItem('current-panel', 'TasksCreatedByMe');
+          location.reload();
         });
       });
     }
@@ -1994,10 +2011,101 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AllTasks.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AllTasks.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TasksAppPanel.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TasksAppPanel.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TasksAssignedToMe__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TasksAssignedToMe */ "./resources/js/components/TasksAssignedToMe.vue");
+/* harmony import */ var _TasksCreatedByMe__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TasksCreatedByMe */ "./resources/js/components/TasksCreatedByMe.vue");
+/* harmony import */ var _AddNewTask__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AddNewTask */ "./resources/js/components/AddNewTask.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "TasksAppPanel",
+  props: ['currentUser'],
+  components: {
+    TasksAssignedToMe: _TasksAssignedToMe__WEBPACK_IMPORTED_MODULE_0__["default"],
+    TasksCreatedByMe: _TasksCreatedByMe__WEBPACK_IMPORTED_MODULE_1__["default"],
+    AddNewTask: _AddNewTask__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  data: function data() {
+    return {
+      isOpen: false,
+      currentPanel: 'TasksAssignedToMe',
+      panels: {
+        TasksAssignedToMe: 'Tasks Assigned To Me',
+        TasksCreatedByMe: 'Tasks Created By Me',
+        AddNewTask: 'Add New Task'
+      }
+    };
+  },
+  watch: {
+    currentPanel: function currentPanel(panel) {
+      localStorage.setItem('current-panel', panel);
+    }
+  },
+  created: function created() {
+    if (localStorage.getItem("current-panel") == 'null') this.currentPanel = 'TasksAssignedToMe';else this.currentPanel = localStorage.getItem("current-panel");
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TasksAssignedToMe.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TasksAssignedToMe.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2080,9 +2188,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "AllTasks",
+  name: "TasksAssignedToMe",
   props: ['currentUser'],
   data: function data() {
     return {
@@ -2102,7 +2220,11 @@ __webpack_require__.r(__webpack_exports__);
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/tasks?filter=".concat(_this.filter, "&order=").concat(_this.order), {
           withCredentials: true
         }).then(function (resp) {
-          _this.tasks = resp.data.data;
+          _this.tasks = resp.data.data.filter(function (task) {
+            return task.assigneeId === _this.currentUser.id;
+          });
+
+          _this.$emit('tasks-count', _this.tasks.length);
         })["catch"](function (err) {
           console.log(err);
         });
@@ -2154,135 +2276,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CompletedTasks.vue?vue&type=script&lang=js&":
-/*!*************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CompletedTasks.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: "AllTasks"
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TasksAppPanel.vue?vue&type=script&lang=js&":
-/*!************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TasksAppPanel.vue?vue&type=script&lang=js& ***!
-  \************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _AllTasks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AllTasks */ "./resources/js/components/AllTasks.vue");
-/* harmony import */ var _CompletedTasks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CompletedTasks */ "./resources/js/components/CompletedTasks.vue");
-/* harmony import */ var _UncompletedTasks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./UncompletedTasks */ "./resources/js/components/UncompletedTasks.vue");
-/* harmony import */ var _AddNewTask__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AddNewTask */ "./resources/js/components/AddNewTask.vue");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: "TasksAppPanel",
-  props: ['currentUser'],
-  components: {
-    AllTasks: _AllTasks__WEBPACK_IMPORTED_MODULE_0__["default"],
-    CompletedTasks: _CompletedTasks__WEBPACK_IMPORTED_MODULE_1__["default"],
-    UncompletedTasks: _UncompletedTasks__WEBPACK_IMPORTED_MODULE_2__["default"],
-    AddNewTask: _AddNewTask__WEBPACK_IMPORTED_MODULE_3__["default"]
-  },
-  data: function data() {
-    return {
-      isOpen: false,
-      currentPanel: 'AllTasks',
-      panels: {
-        AllTasks: 'All Tasks',
-        CompletedTasks: 'Completed Tasks',
-        UncompletedTasks: 'Uncompleted Tasks',
-        AddNewTask: 'Add New Task'
-      }
-    };
-  },
-  watch: {
-    currentPanel: function currentPanel(panel) {
-      localStorage.setItem('current-panel', panel);
-    }
-  },
-  created: function created() {
-    if (localStorage.getItem("current-panel") == 'null') this.currentPanel = 'AllTasks';else this.currentPanel = localStorage.getItem("current-panel");
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UncompletedTasks.vue?vue&type=script&lang=js&":
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TasksCreatedByMe.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/UncompletedTasks.vue?vue&type=script&lang=js& ***!
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TasksCreatedByMe.vue?vue&type=script&lang=js& ***!
   \***************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2293,9 +2297,251 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "AllTasks"
+  name: "TasksCreatedByMe",
+  props: ['currentUser'],
+  data: function data() {
+    return {
+      tasks: [],
+      filter: 'due_date',
+      order: 'desc'
+    };
+  },
+  mounted: function mounted() {
+    this.getTasks();
+  },
+  methods: {
+    getTasks: function getTasks() {
+      var _this = this;
+
+      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/sanctum/csrf-cookie').then(function (resp) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/tasks?filter=".concat(_this.filter, "&order=").concat(_this.order), {
+          withCredentials: true
+        }).then(function (resp) {
+          _this.tasks = resp.data.data.filter(function (task) {
+            return task.ownerId === _this.currentUser.id;
+          });
+
+          _this.$emit('tasks-count', _this.tasks.length);
+        })["catch"](function (err) {
+          console.log(err);
+        });
+      });
+    },
+    badgeClass: function badgeClass(task) {
+      if (task.completed === true) {
+        return 'bg-gray-400';
+      } else {
+        switch (task.priority) {
+          case 'critical':
+            return 'bg-red-600';
+            break;
+
+          case 'high':
+            return 'bg-orange-400';
+            break;
+
+          case 'medium':
+            return 'bg-yellow-500';
+            break;
+
+          case 'low':
+            return 'bg-blue-400';
+            break;
+        }
+      }
+    },
+    toggleCompleted: function toggleCompleted(task) {
+      var _this2 = this;
+
+      var data = {
+        completed: !task.completed,
+        withCredentials: true
+      };
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/sanctum/csrf-cookie').then(function (resp) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/tasks/".concat(task.id), data).then(function (resp) {
+          _this2.getTasks();
+        });
+      });
+    },
+    handleOrder: function handleOrder(filter) {
+      this.filter = filter;
+      if (this.order === 'desc') this.order = 'asc';else this.order = 'desc';
+      this.getTasks();
+    }
+  }
 });
+
+/***/ }),
+
+/***/ "./node_modules/dayjs/dayjs.min.js":
+/*!*****************************************!*\
+  !*** ./node_modules/dayjs/dayjs.min.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(t,e){ true?module.exports=e():undefined}(this,function(){"use strict";var t="millisecond",e="second",n="minute",r="hour",i="day",s="week",u="month",a="quarter",o="year",f="date",h=/^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[^0-9]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?.?(\d{1,3})?$/,c=/\[([^\]]+)]|Y{2,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g,d=function(t,e,n){var r=String(t);return!r||r.length>=e?t:""+Array(e+1-r.length).join(n)+t},$={s:d,z:function(t){var e=-t.utcOffset(),n=Math.abs(e),r=Math.floor(n/60),i=n%60;return(e<=0?"+":"-")+d(r,2,"0")+":"+d(i,2,"0")},m:function t(e,n){if(e.date()<n.date())return-t(n,e);var r=12*(n.year()-e.year())+(n.month()-e.month()),i=e.add(r,u),s=n-i<0,a=e.add(r+(s?-1:1),u);return+(-(r+(n-i)/(s?i-a:a-i))||0)},a:function(t){return t<0?Math.ceil(t)||0:Math.floor(t)},p:function(h){return{M:u,y:o,w:s,d:i,D:f,h:r,m:n,s:e,ms:t,Q:a}[h]||String(h||"").toLowerCase().replace(/s$/,"")},u:function(t){return void 0===t}},l={name:"en",weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_")},y="en",M={};M[y]=l;var m=function(t){return t instanceof S},D=function(t,e,n){var r;if(!t)return y;if("string"==typeof t)M[t]&&(r=t),e&&(M[t]=e,r=t);else{var i=t.name;M[i]=t,r=i}return!n&&r&&(y=r),r||!n&&y},v=function(t,e){if(m(t))return t.clone();var n="object"==typeof e?e:{};return n.date=t,n.args=arguments,new S(n)},g=$;g.l=D,g.i=m,g.w=function(t,e){return v(t,{locale:e.$L,utc:e.$u,$offset:e.$offset})};var S=function(){function d(t){this.$L=this.$L||D(t.locale,null,!0),this.parse(t)}var $=d.prototype;return $.parse=function(t){this.$d=function(t){var e=t.date,n=t.utc;if(null===e)return new Date(NaN);if(g.u(e))return new Date;if(e instanceof Date)return new Date(e);if("string"==typeof e&&!/Z$/i.test(e)){var r=e.match(h);if(r){var i=r[2]-1||0;return n?new Date(Date.UTC(r[1],i,r[3]||1,r[4]||0,r[5]||0,r[6]||0,r[7]||0)):new Date(r[1],i,r[3]||1,r[4]||0,r[5]||0,r[6]||0,r[7]||0)}}return new Date(e)}(t),this.init()},$.init=function(){var t=this.$d;this.$y=t.getFullYear(),this.$M=t.getMonth(),this.$D=t.getDate(),this.$W=t.getDay(),this.$H=t.getHours(),this.$m=t.getMinutes(),this.$s=t.getSeconds(),this.$ms=t.getMilliseconds()},$.$utils=function(){return g},$.isValid=function(){return!("Invalid Date"===this.$d.toString())},$.isSame=function(t,e){var n=v(t);return this.startOf(e)<=n&&n<=this.endOf(e)},$.isAfter=function(t,e){return v(t)<this.startOf(e)},$.isBefore=function(t,e){return this.endOf(e)<v(t)},$.$g=function(t,e,n){return g.u(t)?this[e]:this.set(n,t)},$.unix=function(){return Math.floor(this.valueOf()/1e3)},$.valueOf=function(){return this.$d.getTime()},$.startOf=function(t,a){var h=this,c=!!g.u(a)||a,d=g.p(t),$=function(t,e){var n=g.w(h.$u?Date.UTC(h.$y,e,t):new Date(h.$y,e,t),h);return c?n:n.endOf(i)},l=function(t,e){return g.w(h.toDate()[t].apply(h.toDate("s"),(c?[0,0,0,0]:[23,59,59,999]).slice(e)),h)},y=this.$W,M=this.$M,m=this.$D,D="set"+(this.$u?"UTC":"");switch(d){case o:return c?$(1,0):$(31,11);case u:return c?$(1,M):$(0,M+1);case s:var v=this.$locale().weekStart||0,S=(y<v?y+7:y)-v;return $(c?m-S:m+(6-S),M);case i:case f:return l(D+"Hours",0);case r:return l(D+"Minutes",1);case n:return l(D+"Seconds",2);case e:return l(D+"Milliseconds",3);default:return this.clone()}},$.endOf=function(t){return this.startOf(t,!1)},$.$set=function(s,a){var h,c=g.p(s),d="set"+(this.$u?"UTC":""),$=(h={},h[i]=d+"Date",h[f]=d+"Date",h[u]=d+"Month",h[o]=d+"FullYear",h[r]=d+"Hours",h[n]=d+"Minutes",h[e]=d+"Seconds",h[t]=d+"Milliseconds",h)[c],l=c===i?this.$D+(a-this.$W):a;if(c===u||c===o){var y=this.clone().set(f,1);y.$d[$](l),y.init(),this.$d=y.set(f,Math.min(this.$D,y.daysInMonth())).$d}else $&&this.$d[$](l);return this.init(),this},$.set=function(t,e){return this.clone().$set(t,e)},$.get=function(t){return this[g.p(t)]()},$.add=function(t,a){var f,h=this;t=Number(t);var c=g.p(a),d=function(e){var n=v(h);return g.w(n.date(n.date()+Math.round(e*t)),h)};if(c===u)return this.set(u,this.$M+t);if(c===o)return this.set(o,this.$y+t);if(c===i)return d(1);if(c===s)return d(7);var $=(f={},f[n]=6e4,f[r]=36e5,f[e]=1e3,f)[c]||1,l=this.$d.getTime()+t*$;return g.w(l,this)},$.subtract=function(t,e){return this.add(-1*t,e)},$.format=function(t){var e=this;if(!this.isValid())return"Invalid Date";var n=t||"YYYY-MM-DDTHH:mm:ssZ",r=g.z(this),i=this.$locale(),s=this.$H,u=this.$m,a=this.$M,o=i.weekdays,f=i.months,h=function(t,r,i,s){return t&&(t[r]||t(e,n))||i[r].substr(0,s)},d=function(t){return g.s(s%12||12,t,"0")},$=i.meridiem||function(t,e,n){var r=t<12?"AM":"PM";return n?r.toLowerCase():r},l={YY:String(this.$y).slice(-2),YYYY:this.$y,M:a+1,MM:g.s(a+1,2,"0"),MMM:h(i.monthsShort,a,f,3),MMMM:h(f,a),D:this.$D,DD:g.s(this.$D,2,"0"),d:String(this.$W),dd:h(i.weekdaysMin,this.$W,o,2),ddd:h(i.weekdaysShort,this.$W,o,3),dddd:o[this.$W],H:String(s),HH:g.s(s,2,"0"),h:d(1),hh:d(2),a:$(s,u,!0),A:$(s,u,!1),m:String(u),mm:g.s(u,2,"0"),s:String(this.$s),ss:g.s(this.$s,2,"0"),SSS:g.s(this.$ms,3,"0"),Z:r};return n.replace(c,function(t,e){return e||l[t]||r.replace(":","")})},$.utcOffset=function(){return 15*-Math.round(this.$d.getTimezoneOffset()/15)},$.diff=function(t,f,h){var c,d=g.p(f),$=v(t),l=6e4*($.utcOffset()-this.utcOffset()),y=this-$,M=g.m(this,$);return M=(c={},c[o]=M/12,c[u]=M,c[a]=M/3,c[s]=(y-l)/6048e5,c[i]=(y-l)/864e5,c[r]=y/36e5,c[n]=y/6e4,c[e]=y/1e3,c)[d]||y,h?M:g.a(M)},$.daysInMonth=function(){return this.endOf(u).$D},$.$locale=function(){return M[this.$L]},$.locale=function(t,e){if(!t)return this.$L;var n=this.clone(),r=D(t,e,!0);return r&&(n.$L=r),n},$.clone=function(){return g.w(this.$d,this)},$.toDate=function(){return new Date(this.valueOf())},$.toJSON=function(){return this.isValid()?this.toISOString():null},$.toISOString=function(){return this.$d.toISOString()},$.toString=function(){return this.$d.toUTCString()},d}(),p=S.prototype;return v.prototype=p,[["$ms",t],["$s",e],["$m",n],["$H",r],["$W",i],["$M",u],["$y",o],["$D",f]].forEach(function(t){p[t[1]]=function(e){return this.$g(e,t[0],t[1])}}),v.extend=function(t,e){return t(e,S,v),v},v.locale=D,v.isDayjs=m,v.unix=function(t){return v(1e3*t)},v.en=M[y],v.Ls=M,v});
+
+
+/***/ }),
+
+/***/ "./node_modules/dayjs/plugin/advancedFormat.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/dayjs/plugin/advancedFormat.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(e,t){ true?module.exports=t():undefined}(this,function(){"use strict";return function(e,t,r){var n=t.prototype,o=n.format;r.en.ordinal=function(e){var t=["th","st","nd","rd"],r=e%100;return"["+e+(t[(r-20)%10]||t[r]||t[0])+"]"},n.format=function(e){var t=this,r=this.$locale(),n=this.$utils(),a=(e||"YYYY-MM-DDTHH:mm:ssZ").replace(/\[([^\]]+)]|Q|wo|ww|w|gggg|Do|X|x|k{1,2}|S/g,function(e){switch(e){case"Q":return Math.ceil((t.$M+1)/3);case"Do":return r.ordinal(t.$D);case"gggg":return t.weekYear();case"wo":return r.ordinal(t.week(),"W");case"w":case"ww":return n.s(t.week(),"w"===e?1:2,"0");case"k":case"kk":return n.s(String(0===t.$H?24:t.$H),"k"===e?1:2,"0");case"X":return Math.floor(t.$d.getTime()/1e3);case"x":return t.$d.getTime();default:return e}});return o.bind(this)(a)}}});
+
+
+/***/ }),
+
+/***/ "./node_modules/dayjs/plugin/customParseFormat.js":
+/*!********************************************************!*\
+  !*** ./node_modules/dayjs/plugin/customParseFormat.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(t,e){ true?module.exports=e():undefined}(this,function(){"use strict";var t,e=/(\[[^[]*\])|([-:/.()\s]+)|(A|a|YYYY|YY?|MM?M?M?|Do|DD?|hh?|HH?|mm?|ss?|S{1,3}|z|ZZ?)/g,n=/\d\d/,r=/\d\d?/,o=/\d*[^\s\d-:/()]+/;var i=function(t){return function(e){this[t]=+e}},s=[/[+-]\d\d:?\d\d/,function(t){var e,n;(this.zone||(this.zone={})).offset=(e=t.match(/([+-]|\d\d)/g),0===(n=60*e[1]+ +e[2])?0:"+"===e[0]?-n:n)}],a=function(e){var n=t[e];return n&&(n.indexOf?n:n.s.concat(n.f))},h={A:[/[AP]M/,function(t){this.afternoon="PM"===t}],a:[/[ap]m/,function(t){this.afternoon="pm"===t}],S:[/\d/,function(t){this.milliseconds=100*+t}],SS:[n,function(t){this.milliseconds=10*+t}],SSS:[/\d{3}/,function(t){this.milliseconds=+t}],s:[r,i("seconds")],ss:[r,i("seconds")],m:[r,i("minutes")],mm:[r,i("minutes")],H:[r,i("hours")],h:[r,i("hours")],HH:[r,i("hours")],hh:[r,i("hours")],D:[r,i("day")],DD:[n,i("day")],Do:[o,function(e){var n=t.ordinal,r=e.match(/\d+/);if(this.day=r[0],n)for(var o=1;o<=31;o+=1)n(o).replace(/\[|\]/g,"")===e&&(this.day=o)}],M:[r,i("month")],MM:[n,i("month")],MMM:[o,function(t){var e=a("months"),n=(a("monthsShort")||e.map(function(t){return t.substr(0,3)})).indexOf(t)+1;if(n<1)throw new Error;this.month=n%12||n}],MMMM:[o,function(t){var e=a("months").indexOf(t)+1;if(e<1)throw new Error;this.month=e%12||e}],Y:[/[+-]?\d+/,i("year")],YY:[n,function(t){t=+t,this.year=t+(t>68?1900:2e3)}],YYYY:[/\d{4}/,i("year")],Z:s,ZZ:s};var f=function(t,n,r){try{var o=function(t){for(var n=t.match(e),r=n.length,o=0;o<r;o+=1){var i=n[o],s=h[i],a=s&&s[0],f=s&&s[1];n[o]=f?{regex:a,parser:f}:i.replace(/^\[|\]$/g,"")}return function(t){for(var e={},o=0,i=0;o<r;o+=1){var s=n[o];if("string"==typeof s)i+=s.length;else{var a=s.regex,h=s.parser,f=t.substr(i),u=a.exec(f)[0];h.call(e,u),t=t.replace(u,"")}}return function(t){var e=t.afternoon;if(void 0!==e){var n=t.hours;e?n<12&&(t.hours+=12):12===n&&(t.hours=0),delete t.afternoon}}(e),e}}(n)(t),i=o.year,s=o.month,a=o.day,f=o.hours,u=o.minutes,d=o.seconds,c=o.milliseconds,l=o.zone,m=new Date,v=a||(i||s?1:m.getDate()),p=i||m.getFullYear(),y=0;i&&!s||(y=s>0?s-1:m.getMonth());var D=f||0,M=u||0,g=d||0,Y=c||0;return l?new Date(Date.UTC(p,y,v,D,M,g,Y+60*l.offset*1e3)):r?new Date(Date.UTC(p,y,v,D,M,g,Y)):new Date(p,y,v,D,M,g,Y)}catch(t){return new Date("")}};return function(e,n,r){var o=n.prototype,i=o.parse;o.parse=function(e){var n=e.date,o=e.utc,s=e.args;this.$u=o;var a=s[1];if("string"==typeof a){var h=!0===s[2],u=!0===s[3],d=h||u,c=s[2];u&&(c=s[2]),h||(t=c?r.Ls[c]:this.$locale()),this.$d=f(n,a,o),this.init(),c&&!0!==c&&(this.$L=this.locale(c).$L),d&&n!==this.format(a)&&(this.$d=new Date(""))}else if(a instanceof Array)for(var l=a.length,m=1;m<=l;m+=1){s[1]=a[m-1];var v=r.apply(this,s);if(v.isValid()){this.$d=v.$d,this.$L=v.$L,this.init();break}m===l&&(this.$d=new Date(""))}else i.call(this,e)}}});
+
+
+/***/ }),
+
+/***/ "./node_modules/dayjs/plugin/isBetween.js":
+/*!************************************************!*\
+  !*** ./node_modules/dayjs/plugin/isBetween.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(e,t){ true?module.exports=t():undefined}(this,function(){"use strict";return function(e,t,i){t.prototype.isBetween=function(e,t,s,f){var n=i(e),o=i(t),r="("===(f=f||"()")[0],u=")"===f[1];return(r?this.isAfter(n,s):!this.isBefore(n,s))&&(u?this.isBefore(o,s):!this.isAfter(o,s))||(r?this.isBefore(n,s):!this.isAfter(n,s))&&(u?this.isAfter(o,s):!this.isBefore(o,s))}}});
+
+
+/***/ }),
+
+/***/ "./node_modules/dayjs/plugin/isSameOrAfter.js":
+/*!****************************************************!*\
+  !*** ./node_modules/dayjs/plugin/isSameOrAfter.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(e,t){ true?module.exports=t():undefined}(this,function(){"use strict";return function(e,t){t.prototype.isSameOrAfter=function(e,t){return this.isSame(e,t)||this.isAfter(e,t)}}});
+
+
+/***/ }),
+
+/***/ "./node_modules/dayjs/plugin/isSameOrBefore.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/dayjs/plugin/isSameOrBefore.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(e,t){ true?module.exports=t():undefined}(this,function(){"use strict";return function(e,t){t.prototype.isSameOrBefore=function(e,t){return this.isSame(e,t)||this.isBefore(e,t)}}});
+
+
+/***/ }),
+
+/***/ "./node_modules/dayjs/plugin/isToday.js":
+/*!**********************************************!*\
+  !*** ./node_modules/dayjs/plugin/isToday.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(t,e){ true?module.exports=e():undefined}(this,function(){"use strict";return function(t,e,o){e.prototype.isToday=function(){var t=o();return this.format("YYYY-MM-DD")===t.format("YYYY-MM-DD")}}});
+
+
+/***/ }),
+
+/***/ "./node_modules/dayjs/plugin/localizedFormat.js":
+/*!******************************************************!*\
+  !*** ./node_modules/dayjs/plugin/localizedFormat.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(e,t){ true?module.exports=t():undefined}(this,function(){"use strict";return function(e,t,o){var n=t.prototype,r=n.format,M={LTS:"h:mm:ss A",LT:"h:mm A",L:"MM/DD/YYYY",LL:"MMMM D, YYYY",LLL:"MMMM D, YYYY h:mm A",LLLL:"dddd, MMMM D, YYYY h:mm A"};o.en.formats=M;n.format=function(e){void 0===e&&(e="YYYY-MM-DDTHH:mm:ssZ");var t=this.$locale().formats,o=void 0===t?{}:t,n=e.replace(/(\[[^\]]+])|(LTS?|l{1,4}|L{1,4})/g,function(e,t,n){var r=n&&n.toUpperCase();return t||o[n]||M[n]||o[r].replace(/(\[[^\]]+])|(MMMM|MM|DD|dddd)/g,function(e,t,o){return t||o.slice(1)})});return r.call(this,n)}}});
+
 
 /***/ }),
 
@@ -2787,7 +3033,6 @@ var render = function() {
       "form",
       {
         staticClass: "w-full",
-        attrs: { action: "" },
         on: {
           submit: function($event) {
             $event.preventDefault()
@@ -2888,11 +3133,12 @@ var render = function() {
                     }
                   }
                 },
-                [
-                  _c("option", { attrs: { value: "1" } }, [_vm._v("visible")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "0" } }, [_vm._v("hidden")])
-                ]
+                _vm._l(_vm.priorities, function(priority, key) {
+                  return _c("option", { key: key, domProps: { value: key } }, [
+                    _vm._v(_vm._s(priority))
+                  ])
+                }),
+                0
               ),
               _vm._v(" "),
               _c(
@@ -3033,43 +3279,37 @@ var render = function() {
               ),
               _vm._v(" "),
               _c(
-                "select",
+                "VueTailwindPicker",
                 {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.formData.due_date,
-                      expression: "formData.due_date"
-                    }
-                  ],
-                  staticClass:
-                    "appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-4 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500",
-                  attrs: { name: "due_date" },
                   on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.formData,
-                        "due_date",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
+                    change: function(v) {
+                      return (_vm.formData.due_date = v)
                     }
                   }
                 },
                 [
-                  _c("option", { attrs: { value: "1" } }, [_vm._v("visible")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "0" } }, [_vm._v("hidden")])
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.formData.due_date,
+                        expression: "formData.due_date"
+                      }
+                    ],
+                    staticClass:
+                      "block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-4 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500",
+                    attrs: { type: "text" },
+                    domProps: { value: _vm.formData.due_date },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.formData, "due_date", $event.target.value)
+                      }
+                    }
+                  })
                 ]
               ),
               _vm._v(" "),
@@ -3100,7 +3340,8 @@ var render = function() {
                   )
                 ]
               )
-            ]
+            ],
+            1
           )
         ]),
         _vm._v(" "),
@@ -3135,403 +3376,6 @@ var staticRenderFns = [
         [_vm._v("Cancel")]
       )
     ])
-  }
-]
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AllTasks.vue?vue&type=template&id=673c0558&":
-/*!***********************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AllTasks.vue?vue&type=template&id=673c0558& ***!
-  \***********************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "tasks" }, [
-    _c("table", { staticClass: "table-auto w-full" }, [
-      _c("thead", {}, [
-        _c("tr", [
-          _c("th", { staticClass: "border-b px-4 py-3 text-left" }, [
-            _c(
-              "a",
-              {
-                staticClass:
-                  "flex justify-between items-center focus:border-transparent focus:outline-none",
-                attrs: { href: "#" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.handleOrder("title")
-                  }
-                }
-              },
-              [
-                _vm._m(0),
-                _vm._v(" "),
-                _c(
-                  "svg",
-                  {
-                    staticClass: "h-3 fill-current text-gray-600",
-                    attrs: { viewBox: "0 0 20 20" }
-                  },
-                  [
-                    _vm.filter === "title" && _vm.order === "asc"
-                      ? _c("path", {
-                          attrs: {
-                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
-                          }
-                        })
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.filter === "title" && _vm.order === "desc"
-                      ? _c("path", {
-                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
-                        })
-                      : _vm._e()
-                  ]
-                )
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("th", { staticClass: "border-b px-4 py-3" }, [
-            _c(
-              "a",
-              {
-                staticClass:
-                  "flex justify-between items-center focus:border-transparent focus:outline-none",
-                attrs: { href: "#" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.handleOrder("assigned_to")
-                  }
-                }
-              },
-              [
-                _c("span", [_vm._v("Assigned To")]),
-                _vm._v(" "),
-                _c(
-                  "svg",
-                  {
-                    staticClass: "h-3 fill-current text-gray-600",
-                    attrs: { viewBox: "0 0 20 20" }
-                  },
-                  [
-                    _vm.filter === "assigned_to" && _vm.order === "asc"
-                      ? _c("path", {
-                          attrs: {
-                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
-                          }
-                        })
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.filter === "assigned_to" && _vm.order === "desc"
-                      ? _c("path", {
-                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
-                        })
-                      : _vm._e()
-                  ]
-                )
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("th", { staticClass: "border-b px-4 py-3" }, [
-            _c(
-              "a",
-              {
-                staticClass:
-                  "flex justify-between items-center focus:border-transparent focus:outline-none",
-                attrs: { href: "#" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.handleOrder("created_by")
-                  }
-                }
-              },
-              [
-                _c("span", [_vm._v("Assigned To")]),
-                _vm._v(" "),
-                _c(
-                  "svg",
-                  {
-                    staticClass: "h-3 fill-current text-gray-600",
-                    attrs: { viewBox: "0 0 20 20" }
-                  },
-                  [
-                    _vm.filter === "created_by" && _vm.order === "asc"
-                      ? _c("path", {
-                          attrs: {
-                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
-                          }
-                        })
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.filter === "created_by" && _vm.order === "desc"
-                      ? _c("path", {
-                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
-                        })
-                      : _vm._e()
-                  ]
-                )
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("th", { staticClass: "border-b px-4 py-3" }, [
-            _c(
-              "a",
-              {
-                staticClass:
-                  "flex justify-between items-center focus:border-transparent focus:outline-none",
-                attrs: { href: "#" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.handleOrder("priority")
-                  }
-                }
-              },
-              [
-                _c("span", [_vm._v("Priority")]),
-                _vm._v(" "),
-                _c(
-                  "svg",
-                  {
-                    staticClass: "h-3 fill-current text-gray-600",
-                    attrs: { viewBox: "0 0 20 20" }
-                  },
-                  [
-                    _vm.filter === "priority" && _vm.order === "asc"
-                      ? _c("path", {
-                          attrs: {
-                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
-                          }
-                        })
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.filter === "priority" && _vm.order === "desc"
-                      ? _c("path", {
-                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
-                        })
-                      : _vm._e()
-                  ]
-                )
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("th", { staticClass: "border-b px-4 py-3 text-right" }, [
-            _c(
-              "a",
-              {
-                staticClass:
-                  "flex justify-between items-center focus:border-transparent focus:outline-none",
-                attrs: { href: "#" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.handleOrder("due_date")
-                  }
-                }
-              },
-              [
-                _c("span", [_vm._v("Due Date")]),
-                _vm._v(" "),
-                _c(
-                  "svg",
-                  {
-                    staticClass: "h-3 fill-current text-gray-600",
-                    attrs: { viewBox: "0 0 20 20" }
-                  },
-                  [
-                    _vm.filter === "due_date" && _vm.order === "asc"
-                      ? _c("path", {
-                          attrs: {
-                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
-                          }
-                        })
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.filter === "due_date" && _vm.order === "desc"
-                      ? _c("path", {
-                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
-                        })
-                      : _vm._e()
-                  ]
-                )
-              ]
-            )
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "tbody",
-        { staticClass: "text-xs" },
-        _vm._l(_vm.tasks, function(task, key) {
-          return _c(
-            "tr",
-            {
-              key: key,
-              staticClass: "hover:bg-gray-200 cursor-pointer",
-              on: {
-                click: function($event) {
-                  return _vm.toggleCompleted(task)
-                }
-              }
-            },
-            [
-              _c(
-                "td",
-                {
-                  staticClass: "border-b px-4 py-3",
-                  class: { "line-through text-gray-400": task.completed }
-                },
-                [_vm._v(_vm._s(task.title))]
-              ),
-              _vm._v(" "),
-              _c(
-                "td",
-                {
-                  staticClass: "border-b px-4 py-3 text-center",
-                  class: { "line-through text-gray-400": task.completed }
-                },
-                [
-                  _vm._v(
-                    _vm._s(
-                      task.assignee === _vm.currentUser.name
-                        ? "Me"
-                        : task.assignee
-                    )
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "td",
-                {
-                  staticClass: "border-b px-4 py-3 text-center",
-                  class: { "line-through text-gray-400": task.completed }
-                },
-                [
-                  _vm._v(
-                    _vm._s(
-                      task.owner === _vm.currentUser.name ? "Me" : task.owner
-                    )
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "td",
-                {
-                  staticClass: "border-b px-4 py-3 text-center",
-                  class: { "line-through text-gray-400": task.completed }
-                },
-                [
-                  _c(
-                    "span",
-                    {
-                      staticClass: "text-white text-xs ml-2 px-2 rounded-full",
-                      class: _vm.badgeClass(task)
-                    },
-                    [_vm._v(_vm._s(task.priority))]
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "td",
-                {
-                  staticClass: "border-b px-4 py-3 text-right",
-                  class: { "line-through text-gray-400": task.completed }
-                },
-                [_vm._v(_vm._s(task.dueDate))]
-              )
-            ]
-          )
-        }),
-        0
-      )
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", [
-      _vm._v(
-        "\n                            Task\n                            "
-      ),
-      _c("small", { staticClass: "text-xs text-gray-500 font-hairline" }, [
-        _vm._v("(Click on a row to complete/uncomplete a task)")
-      ])
-    ])
-  }
-]
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CompletedTasks.vue?vue&type=template&id=0dbe7dae&":
-/*!*****************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CompletedTasks.vue?vue&type=template&id=0dbe7dae& ***!
-  \*****************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "mb-4 flex justify-between items-center" },
-      [
-        _c("p", { staticClass: "text-grey-darkest flex items-center" }, [
-          _vm._v("\n        That's the completed one\n        "),
-          _c(
-            "span",
-            {
-              staticClass:
-                "bg-red-600 text-white text-xs ml-2 px-2 rounded-full"
-            },
-            [_vm._v("critical")]
-          )
-        ]),
-        _vm._v(" "),
-        _c("p", [_vm._v("In 2 weeks time")])
-      ]
-    )
   }
 ]
 render._withStripped = true
@@ -3701,9 +3545,349 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UncompletedTasks.vue?vue&type=template&id=645f9f47&":
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TasksAssignedToMe.vue?vue&type=template&id=0137e8b4&":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TasksAssignedToMe.vue?vue&type=template&id=0137e8b4& ***!
+  \********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "tasks" }, [
+    _c("table", { staticClass: "table-auto w-full" }, [
+      _c("thead", {}, [
+        _c("tr", [
+          _c("th", { staticClass: "border-b px-4 py-3 text-left" }, [
+            _c(
+              "a",
+              {
+                staticClass:
+                  "flex justify-between items-center focus:border-transparent focus:outline-none",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.handleOrder("title")
+                  }
+                }
+              },
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "svg",
+                  {
+                    staticClass: "h-3 fill-current text-gray-600",
+                    attrs: { viewBox: "0 0 20 20" }
+                  },
+                  [
+                    _vm.filter === "title" && _vm.order === "asc"
+                      ? _c("path", {
+                          attrs: {
+                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
+                          }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.filter === "title" && _vm.order === "desc"
+                      ? _c("path", {
+                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
+                        })
+                      : _vm._e()
+                  ]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-b px-4 py-3" }, [
+            _c(
+              "a",
+              {
+                staticClass:
+                  "flex justify-between items-center focus:border-transparent focus:outline-none",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.handleOrder("created_by")
+                  }
+                }
+              },
+              [
+                _c("span", [_vm._v("Created By")]),
+                _vm._v(" "),
+                _c(
+                  "svg",
+                  {
+                    staticClass: "h-3 fill-current text-gray-600",
+                    attrs: { viewBox: "0 0 20 20" }
+                  },
+                  [
+                    _vm.filter === "created_by" && _vm.order === "asc"
+                      ? _c("path", {
+                          attrs: {
+                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
+                          }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.filter === "created_by" && _vm.order === "desc"
+                      ? _c("path", {
+                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
+                        })
+                      : _vm._e()
+                  ]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-b px-4 py-3" }, [
+            _c(
+              "a",
+              {
+                staticClass:
+                  "flex justify-between items-center focus:border-transparent focus:outline-none",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.handleOrder("priority")
+                  }
+                }
+              },
+              [
+                _c("span", [_vm._v("Priority")]),
+                _vm._v(" "),
+                _c(
+                  "svg",
+                  {
+                    staticClass: "h-3 fill-current text-gray-600",
+                    attrs: { viewBox: "0 0 20 20" }
+                  },
+                  [
+                    _vm.filter === "priority" && _vm.order === "asc"
+                      ? _c("path", {
+                          attrs: {
+                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
+                          }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.filter === "priority" && _vm.order === "desc"
+                      ? _c("path", {
+                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
+                        })
+                      : _vm._e()
+                  ]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-b px-4 py-3 text-center" }, [
+            _c(
+              "a",
+              {
+                staticClass:
+                  "flex justify-between items-center focus:border-transparent focus:outline-none",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.handleOrder("completed")
+                  }
+                }
+              },
+              [
+                _c("span", [_vm._v("Completed")]),
+                _vm._v(" "),
+                _c(
+                  "svg",
+                  {
+                    staticClass: "h-3 fill-current text-gray-600",
+                    attrs: { viewBox: "0 0 20 20" }
+                  },
+                  [
+                    _vm.filter === "completed" && _vm.order === "asc"
+                      ? _c("path", {
+                          attrs: {
+                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
+                          }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.filter === "completed" && _vm.order === "desc"
+                      ? _c("path", {
+                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
+                        })
+                      : _vm._e()
+                  ]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-b px-4 py-3 text-right" }, [
+            _c(
+              "a",
+              {
+                staticClass:
+                  "flex justify-between items-center focus:border-transparent focus:outline-none",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.handleOrder("due_date")
+                  }
+                }
+              },
+              [
+                _c("span", [_vm._v("Due Date")]),
+                _vm._v(" "),
+                _c(
+                  "svg",
+                  {
+                    staticClass: "h-3 fill-current text-gray-600",
+                    attrs: { viewBox: "0 0 20 20" }
+                  },
+                  [
+                    _vm.filter === "due_date" && _vm.order === "asc"
+                      ? _c("path", {
+                          attrs: {
+                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
+                          }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.filter === "due_date" && _vm.order === "desc"
+                      ? _c("path", {
+                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
+                        })
+                      : _vm._e()
+                  ]
+                )
+              ]
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "tbody",
+        { staticClass: "text-xs" },
+        _vm._l(_vm.tasks, function(task, key) {
+          return _c(
+            "tr",
+            {
+              key: key,
+              staticClass: "hover:bg-gray-200 cursor-pointer",
+              on: {
+                click: function($event) {
+                  return _vm.toggleCompleted(task)
+                }
+              }
+            },
+            [
+              _c(
+                "td",
+                {
+                  staticClass: "border-b px-4 py-3",
+                  class: { "line-through text-gray-400": task.completed }
+                },
+                [_vm._v(_vm._s(task.title))]
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                {
+                  staticClass: "border-b px-4 py-3 text-center",
+                  class: { "line-through text-gray-400": task.completed }
+                },
+                [
+                  _vm._v(
+                    _vm._s(
+                      task.owner === _vm.currentUser.name ? "Me" : task.owner
+                    )
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                {
+                  staticClass: "border-b px-4 py-3 text-center",
+                  class: { "line-through text-gray-400": task.completed }
+                },
+                [
+                  _c(
+                    "span",
+                    {
+                      staticClass: "text-white text-xs ml-2 px-2 rounded-full",
+                      class: _vm.badgeClass(task)
+                    },
+                    [_vm._v(_vm._s(task.priority))]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                {
+                  staticClass: "border-b px-4 py-3 text-center",
+                  class: { "line-through text-gray-400": task.completed }
+                },
+                [_vm._v(_vm._s(task.completed ? "Yes" : "No"))]
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                {
+                  staticClass: "border-b px-4 py-3 text-right",
+                  class: { "line-through text-gray-400": task.completed }
+                },
+                [_vm._v(_vm._s(task.dueDate))]
+              )
+            ]
+          )
+        }),
+        0
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", [
+      _vm._v(
+        "\n                            Task\n                            "
+      ),
+      _c("small", { staticClass: "text-xs text-gray-500 font-hairline" }, [
+        _vm._v("(Click on a row to complete/uncomplete a task)")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TasksCreatedByMe.vue?vue&type=template&id=a0e8ce58&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/UncompletedTasks.vue?vue&type=template&id=645f9f47& ***!
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TasksCreatedByMe.vue?vue&type=template&id=a0e8ce58& ***!
   \*******************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -3716,32 +3900,325 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "tasks" }, [
+    _c("table", { staticClass: "table-auto w-full" }, [
+      _c("thead", {}, [
+        _c("tr", [
+          _c("th", { staticClass: "border-b px-4 py-3 text-left" }, [
+            _c(
+              "a",
+              {
+                staticClass:
+                  "flex justify-between items-center focus:border-transparent focus:outline-none",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.handleOrder("title")
+                  }
+                }
+              },
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "svg",
+                  {
+                    staticClass: "h-3 fill-current text-gray-600",
+                    attrs: { viewBox: "0 0 20 20" }
+                  },
+                  [
+                    _vm.filter === "title" && _vm.order === "asc"
+                      ? _c("path", {
+                          attrs: {
+                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
+                          }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.filter === "title" && _vm.order === "desc"
+                      ? _c("path", {
+                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
+                        })
+                      : _vm._e()
+                  ]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-b px-4 py-3" }, [
+            _c(
+              "a",
+              {
+                staticClass:
+                  "flex justify-between items-center focus:border-transparent focus:outline-none",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.handleOrder("assigned_to")
+                  }
+                }
+              },
+              [
+                _c("span", [_vm._v("Assigned To")]),
+                _vm._v(" "),
+                _c(
+                  "svg",
+                  {
+                    staticClass: "h-3 fill-current text-gray-600",
+                    attrs: { viewBox: "0 0 20 20" }
+                  },
+                  [
+                    _vm.filter === "assigned_to" && _vm.order === "asc"
+                      ? _c("path", {
+                          attrs: {
+                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
+                          }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.filter === "assigned_to" && _vm.order === "desc"
+                      ? _c("path", {
+                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
+                        })
+                      : _vm._e()
+                  ]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-b px-4 py-3" }, [
+            _c(
+              "a",
+              {
+                staticClass:
+                  "flex justify-between items-center focus:border-transparent focus:outline-none",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.handleOrder("priority")
+                  }
+                }
+              },
+              [
+                _c("span", [_vm._v("Priority")]),
+                _vm._v(" "),
+                _c(
+                  "svg",
+                  {
+                    staticClass: "h-3 fill-current text-gray-600",
+                    attrs: { viewBox: "0 0 20 20" }
+                  },
+                  [
+                    _vm.filter === "priority" && _vm.order === "asc"
+                      ? _c("path", {
+                          attrs: {
+                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
+                          }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.filter === "priority" && _vm.order === "desc"
+                      ? _c("path", {
+                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
+                        })
+                      : _vm._e()
+                  ]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-b px-4 py-3 text-center" }, [
+            _c(
+              "a",
+              {
+                staticClass:
+                  "flex justify-between items-center focus:border-transparent focus:outline-none",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.handleOrder("completed")
+                  }
+                }
+              },
+              [
+                _c("span", [_vm._v("Completed")]),
+                _vm._v(" "),
+                _c(
+                  "svg",
+                  {
+                    staticClass: "h-3 fill-current text-gray-600",
+                    attrs: { viewBox: "0 0 20 20" }
+                  },
+                  [
+                    _vm.filter === "completed" && _vm.order === "asc"
+                      ? _c("path", {
+                          attrs: {
+                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
+                          }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.filter === "completed" && _vm.order === "desc"
+                      ? _c("path", {
+                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
+                        })
+                      : _vm._e()
+                  ]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("th", { staticClass: "border-b px-4 py-3 text-right" }, [
+            _c(
+              "a",
+              {
+                staticClass:
+                  "flex justify-between items-center focus:border-transparent focus:outline-none",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.handleOrder("due_date")
+                  }
+                }
+              },
+              [
+                _c("span", [_vm._v("Due Date")]),
+                _vm._v(" "),
+                _c(
+                  "svg",
+                  {
+                    staticClass: "h-3 fill-current text-gray-600",
+                    attrs: { viewBox: "0 0 20 20" }
+                  },
+                  [
+                    _vm.filter === "due_date" && _vm.order === "asc"
+                      ? _c("path", {
+                          attrs: {
+                            d: "M10 19.25L4.5 14H8V1h4v13h3.5L10 19.25z"
+                          }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.filter === "due_date" && _vm.order === "desc"
+                      ? _c("path", {
+                          attrs: { d: "M10 .75L15.5 6H12v13H8V6H4.5L10 .75z" }
+                        })
+                      : _vm._e()
+                  ]
+                )
+              ]
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "tbody",
+        { staticClass: "text-xs" },
+        _vm._l(_vm.tasks, function(task, key) {
+          return _c(
+            "tr",
+            {
+              key: key,
+              staticClass: "hover:bg-gray-200 cursor-pointer",
+              on: {
+                click: function($event) {
+                  return _vm.toggleCompleted(task)
+                }
+              }
+            },
+            [
+              _c(
+                "td",
+                {
+                  staticClass: "border-b px-4 py-3",
+                  class: { "line-through text-gray-400": task.completed }
+                },
+                [_vm._v(_vm._s(task.title))]
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                {
+                  staticClass: "border-b px-4 py-3 text-center",
+                  class: { "line-through text-gray-400": task.completed }
+                },
+                [
+                  _vm._v(
+                    _vm._s(
+                      task.assignee === _vm.currentUser.name
+                        ? "Me"
+                        : task.assignee
+                    )
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                {
+                  staticClass: "border-b px-4 py-3 text-center",
+                  class: { "line-through text-gray-400": task.completed }
+                },
+                [
+                  _c(
+                    "span",
+                    {
+                      staticClass: "text-white text-xs ml-2 px-2 rounded-full",
+                      class: _vm.badgeClass(task)
+                    },
+                    [_vm._v(_vm._s(task.priority))]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                {
+                  staticClass: "border-b px-4 py-3 text-center",
+                  class: { "line-through text-gray-400": task.completed }
+                },
+                [_vm._v(_vm._s(task.completed ? "Yes" : "No"))]
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                {
+                  staticClass: "border-b px-4 py-3 text-right",
+                  class: { "line-through text-gray-400": task.completed }
+                },
+                [_vm._v(_vm._s(task.dueDate))]
+              )
+            ]
+          )
+        }),
+        0
+      )
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "mb-4 flex justify-between items-center" },
-      [
-        _c("p", { staticClass: "text-grey-darkest flex items-center" }, [
-          _vm._v("\n        An uncompleted task\n        "),
-          _c(
-            "span",
-            {
-              staticClass:
-                "bg-red-600 text-white text-xs ml-2 px-2 rounded-full"
-            },
-            [_vm._v("critical")]
-          )
-        ]),
-        _vm._v(" "),
-        _c("p", [_vm._v("In 2 weeks time")])
-      ]
-    )
+    return _c("span", [
+      _vm._v(
+        "\n                            Task\n                            "
+      ),
+      _c("small", { staticClass: "text-xs text-gray-500 font-hairline" }, [
+        _vm._v("(Click on a row to complete/uncomplete a task)")
+      ])
+    ])
   }
 ]
 render._withStripped = true
@@ -3859,6 +4336,1596 @@ function normalizeComponent (
   }
 }
 
+
+/***/ }),
+
+/***/ "./node_modules/vue-tailwind-picker/dist/vue-tailwind-picker.esm.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/vue-tailwind-picker/dist/vue-tailwind-picker.esm.js ***!
+  \**************************************************************************/
+/*! exports provided: default, install */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "install", function() { return install; });
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var dayjs_plugin_isToday__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dayjs/plugin/isToday */ "./node_modules/dayjs/plugin/isToday.js");
+/* harmony import */ var dayjs_plugin_isToday__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_isToday__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var dayjs_plugin_customParseFormat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dayjs/plugin/customParseFormat */ "./node_modules/dayjs/plugin/customParseFormat.js");
+/* harmony import */ var dayjs_plugin_customParseFormat__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_customParseFormat__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! dayjs/plugin/isBetween */ "./node_modules/dayjs/plugin/isBetween.js");
+/* harmony import */ var dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var dayjs_plugin_localizedFormat__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! dayjs/plugin/localizedFormat */ "./node_modules/dayjs/plugin/localizedFormat.js");
+/* harmony import */ var dayjs_plugin_localizedFormat__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_localizedFormat__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var dayjs_plugin_advancedFormat__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! dayjs/plugin/advancedFormat */ "./node_modules/dayjs/plugin/advancedFormat.js");
+/* harmony import */ var dayjs_plugin_advancedFormat__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_advancedFormat__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var dayjs_plugin_isSameOrBefore__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! dayjs/plugin/isSameOrBefore */ "./node_modules/dayjs/plugin/isSameOrBefore.js");
+/* harmony import */ var dayjs_plugin_isSameOrBefore__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_isSameOrBefore__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var dayjs_plugin_isSameOrAfter__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! dayjs/plugin/isSameOrAfter */ "./node_modules/dayjs/plugin/isSameOrAfter.js");
+/* harmony import */ var dayjs_plugin_isSameOrAfter__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_isSameOrAfter__WEBPACK_IMPORTED_MODULE_7__);
+
+
+
+
+
+
+
+
+
+//
+
+dayjs__WEBPACK_IMPORTED_MODULE_0___default.a.extend(dayjs_plugin_isToday__WEBPACK_IMPORTED_MODULE_1___default.a)
+dayjs__WEBPACK_IMPORTED_MODULE_0___default.a.extend(dayjs_plugin_customParseFormat__WEBPACK_IMPORTED_MODULE_2___default.a)
+dayjs__WEBPACK_IMPORTED_MODULE_0___default.a.extend(dayjs_plugin_isBetween__WEBPACK_IMPORTED_MODULE_3___default.a)
+dayjs__WEBPACK_IMPORTED_MODULE_0___default.a.extend(dayjs_plugin_localizedFormat__WEBPACK_IMPORTED_MODULE_4___default.a)
+dayjs__WEBPACK_IMPORTED_MODULE_0___default.a.extend(dayjs_plugin_advancedFormat__WEBPACK_IMPORTED_MODULE_5___default.a)
+dayjs__WEBPACK_IMPORTED_MODULE_0___default.a.extend(dayjs_plugin_isSameOrBefore__WEBPACK_IMPORTED_MODULE_6___default.a)
+dayjs__WEBPACK_IMPORTED_MODULE_0___default.a.extend(dayjs_plugin_isSameOrAfter__WEBPACK_IMPORTED_MODULE_7___default.a)
+
+var handleOutsideClick
+
+// import './css/tailwind.css' // Development only
+
+/**
+ * Author: kenhyuwa <wahyu.dhiraashandy8@gmail.com
+ * Url: https://github.com/kenhyuwa
+ **/
+
+var script = {
+  name: 'VueTailwindPicker',
+  directives: {
+    closable: {
+      // https://github.com/TahaSh/vue-closable // resource
+      bind: function bind(el, binding, vnode) {
+        // Here's the click/touchstart handler
+        // (it is registered below)
+        handleOutsideClick = function (e) {
+          e.stopPropagation()
+          // Get the handler method name and the exclude array
+          // from the object used in v-closable
+          var ref = binding.value
+          var handler = ref.handler
+          var exclude = ref.exclude
+
+          // This variable indicates if the clicked element is excluded
+          var clickedOnExcludedEl = false
+          if (exclude) {
+            exclude.forEach(function (refName) {
+              // We only run this code if we haven't detected
+              // any excluded element yet
+              if (!clickedOnExcludedEl) {
+                // Get the element using the reference name
+                var excludedEl = vnode.context.$refs[refName]
+                // See if this excluded element
+                // is the same element the user just clicked on
+                clickedOnExcludedEl = excludedEl
+                  ? excludedEl.contains(e.target)
+                  : false
+              }
+            })
+          }
+
+          // We check to see if the clicked element is not
+          // the dialog element and not excluded
+          if (clickedOnExcludedEl && vnode.context.autoClose) {
+            vnode.context[handler]()
+          }
+          if (!el.contains(e.target) && !clickedOnExcludedEl) {
+            // If the clicked element is outside the dialog
+            // and not the button, then call the outside-click handler
+            // from the same component this directive is used in
+            vnode.context[handler]()
+          }
+        }
+        // Register click/touchstart event listeners on the whole page
+        document.addEventListener('click', handleOutsideClick)
+        document.addEventListener('touchstart', handleOutsideClick)
+      },
+
+      unbind: function unbind() {
+        // If the element that has v-closable is removed, then
+        // unbind click/touchstart listeners from the whole page
+        document.removeEventListener('click', handleOutsideClick)
+        document.removeEventListener('touchstart', handleOutsideClick)
+      },
+    },
+  },
+  props: {
+    init: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    startDate: {
+      type: String,
+      required: false,
+      default: dayjs__WEBPACK_IMPORTED_MODULE_0___default()().format('YYYY-MM-DD'),
+    },
+    endDate: {
+      type: String,
+      required: false,
+      default: undefined,
+    },
+    // Next future
+    disableDate: {
+      type: Array,
+      required: false,
+      default: function () {
+        return []
+      },
+    },
+    eventDate: {
+      type: Array,
+      required: false,
+      default: function () {
+        return []
+      },
+    },
+    formatDate: {
+      type: String,
+      required: false,
+      default: 'YYYY-MM-DD',
+    },
+    // Confused with this
+    formatDisplay: {
+      type: String,
+      required: false,
+      default: 'YYYY-MM-DD',
+    },
+    inline: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    // Not make sure with this
+    tailwindPickerValue: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    // Next future
+    dateRange: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    // Next future
+    autoClose: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    startFromMonday: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    theme: {
+      type: Object,
+      required: false,
+      default: function () {
+        return {
+          background: '#FFFFFF',
+          text: 'text-gray-700',
+          border: 'border-gray-200',
+          currentColor: 'text-gray-200',
+          navigation: {
+            background: 'bg-gray-100',
+            hover: 'hover:bg-gray-200',
+            focus: 'bg-gray-200',
+          },
+          picker: {
+            rounded: 'rounded-full',
+            selected: {
+              background: 'bg-red-500',
+              border: 'border-red-500',
+              hover: 'hover:border-red-500',
+            },
+            holiday: 'text-red-400',
+            weekend: 'text-green-400',
+            event: 'bg-indigo-500',
+          },
+          event: {
+            border: 'border-gray-200',
+          },
+        }
+      },
+    },
+  },
+  data: function data() {
+    var startDatepicker = dayjs__WEBPACK_IMPORTED_MODULE_0___default()(this.startDate, this.formatDate)
+    // Featured for my own project
+    //   .add(
+    //   dayjs().hour() >= 20 ? 1 : 0,
+    //   'day',
+    // )
+    var endDatepicker = this.endDate
+      ? dayjs__WEBPACK_IMPORTED_MODULE_0___default()(this.endDate, this.formatDate)
+      : undefined
+    var today = dayjs__WEBPACK_IMPORTED_MODULE_0___default()(startDatepicker, this.formatDate)
+    var months = Array.from(Array(12), function (v, i) {
+      return dayjs__WEBPACK_IMPORTED_MODULE_0___default()().month(i).format('MMMM')
+    })
+    var years = Array.from(
+      Array(
+        this.endDate
+          ? endDatepicker.diff(today, 'year') + 1
+          : today.diff(today, 'year') + 36,
+      ),
+      function (v, i) {
+        return today.add(i, 'year').$y
+      },
+    )
+    var visibleMonth = false
+    var visibleYear = false
+    var showPicker = false
+    return {
+      startDatepicker: startDatepicker,
+      endDatepicker: endDatepicker,
+      today: today,
+      visibleMonth: visibleMonth,
+      months: months,
+      visibleYear: visibleYear,
+      years: years,
+      showPicker: showPicker,
+    }
+  },
+  computed: {
+    days: function days() {
+      var customWeekend = this.startFromMonday ? 1 : 0
+      return Array.from(Array(7), function (v, i) {
+        return dayjs__WEBPACK_IMPORTED_MODULE_0___default()()
+          .day(i + customWeekend)
+          .format('ddd')
+      })
+    },
+    previousPicker: function previousPicker() {
+      var customWeekend = this.startFromMonday ? 1 : 0
+      var display = []
+      var previous = this.today.date(0)
+      var current = this.today.date(0)
+      for (var i = 0; i <= current.day() - customWeekend; i++) {
+        display.push(previous.subtract(i, 'day'))
+      }
+      return display.sort(function (a, b) {
+        return a.$d - b.$d
+      })
+    },
+    currentPicker: function currentPicker() {
+      var this$1 = this
+
+      var customWeekend = this.startFromMonday ? 1 : 0
+      var eventDate = this.eventDate.length > 0 ? this.eventDate : []
+      return Array.from(
+        Array(this.today.daysInMonth() - customWeekend),
+        function (v, i) {
+          var events = this$1.today.date(++i)
+          events.$events = eventDate.find(function (o) {
+            return o.date === events.format(this$1.formatDate)
+          })
+          return events
+        },
+      )
+    },
+    nextPicker: function nextPicker() {
+      var customWeekend = this.startFromMonday ? 1 : 0
+      var display = []
+      var previous = this.previousPicker.length
+      var current = this.today.daysInMonth()
+      for (var i = 1; i <= 42 - (previous + current) + customWeekend; i++) {
+        display.push(this.today.date(i).add(1, 'month'))
+      }
+      return display
+    },
+    enableMonth: function enableMonth() {
+      return this.visibleMonth
+    },
+    enableYear: function enableYear() {
+      return this.visibleYear
+    },
+    visiblePrev: function visiblePrev() {
+      if (!this.dateRange) {
+        var endOf = this.today.subtract(1, 'month').endOf('month')
+        var diff = this.startDatepicker.diff(endOf, 'day')
+        return diff < this.today.daysInMonth() - this.today.$D
+      }
+      return true
+    },
+    visibleNext: function visibleNext() {
+      if (!this.dateRange && this.endDate) {
+        var startOf = this.today.add(1, 'month').startOf('month')
+        return this.endDatepicker.diff(startOf, 'day') > 0
+      }
+      return true
+    },
+  },
+  watch: {
+    showPicker: function showPicker(prev, next) {
+      if (prev) {
+        this.visibleMonth = next
+        this.visibleYear = next
+      }
+    },
+  },
+  mounted: function mounted() {
+    if (this.init) {
+      this.emit()
+    }
+  },
+  methods: {
+    dayjs: dayjs__WEBPACK_IMPORTED_MODULE_0___default.a,
+    emit: function emit() {
+      this.$emit('change', this.today.format(this.formatDate))
+    },
+    changePicker: function changePicker(date) {
+      this.today = date
+      this.emit()
+      this.showPicker = !this.showPicker
+    },
+    onPrevious: function onPrevious() {
+      if (this.visiblePrev) {
+        var today = this.today
+          .set('month', this.today.$M === 0 ? 11 : this.today.$M - 1)
+          .set('year', this.today.$M === 0 ? this.today.$y - 1 : this.today.$y)
+        if (this.possibleDate(today)) {
+          this.today = today
+        } else {
+          this.today = this.startDatepicker
+        }
+        this.emit()
+      }
+    },
+    onNext: function onNext() {
+      if (this.visibleNext) {
+        var today = this.today
+          .set('month', (this.today.$M + 1) % 12)
+          .set('year', this.today.$M === 11 ? this.today.$y + 1 : this.today.$y)
+        if (this.possibleDate(today)) {
+          this.today = today
+        } else {
+          this.today = this.endDatepicker
+        }
+        this.emit()
+      }
+    },
+    possibleStartDate: function possibleStartDate(date) {
+      return this.dateRange
+        ? true
+        : date.isSameOrAfter(this.startDatepicker, 'day')
+    },
+    possibleEndDate: function possibleEndDate(date) {
+      if (this.endDate) {
+        return this.dateRange
+          ? true
+          : date.isSameOrBefore(this.endDatepicker, 'day')
+      }
+      return false
+    },
+    possibleDate: function possibleDate(date) {
+      if (this.endDate) {
+        return this.possibleStartDate(date) && this.possibleEndDate(date)
+      }
+      return this.possibleStartDate(date)
+    },
+    holidayDate: function holidayDate(date) {
+      return !!(date.$events && date.$events.holiday)
+    },
+    toggleMonth: function toggleMonth() {
+      this.visibleMonth = !this.visibleMonth
+      if (this.visibleMonth) {
+        this.visibleYear = false
+      }
+    },
+    toggleYear: function toggleYear() {
+      this.visibleYear = !this.visibleYear
+      if (this.visibleYear) {
+        this.visibleMonth = false
+      }
+    },
+    setMonth: function setMonth(month) {
+      if (this.possibleDate(this.today.set('month', month))) {
+        this.today = this.today.set('month', month)
+      } else {
+        this.today = this.startDatepicker
+      }
+      this.emit()
+      this.toggleMonth()
+    },
+    setYear: function setYear(year) {
+      if (this.possibleDate(this.today.set('year', year))) {
+        this.today = this.today.set('year', year)
+      } else {
+        this.today = this.startDatepicker
+      }
+      this.emit()
+      this.toggleYear()
+    },
+    onAway: function onAway() {
+      this.showPicker = false
+    },
+    onFeedBack: function onFeedBack() {
+      this.showPicker = true
+    },
+  },
+}
+
+function normalizeComponent(
+  template,
+  style,
+  script,
+  scopeId,
+  isFunctionalTemplate,
+  moduleIdentifier /* server only */,
+  shadowMode,
+  createInjector,
+  createInjectorSSR,
+  createInjectorShadow,
+) {
+  if (typeof shadowMode !== 'boolean') {
+    createInjectorSSR = createInjector
+    createInjector = shadowMode
+    shadowMode = false
+  }
+  // Vue.extend constructor export interop.
+  var options = typeof script === 'function' ? script.options : script
+  // render functions
+  if (template && template.render) {
+    options.render = template.render
+    options.staticRenderFns = template.staticRenderFns
+    options._compiled = true
+    // functional template
+    if (isFunctionalTemplate) {
+      options.functional = true
+    }
+  }
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+  var hook
+  if (moduleIdentifier) {
+    // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (style) {
+        style.call(this, createInjectorSSR(context))
+      }
+      // register component module identifier for async chunk inference
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (style) {
+    hook = shadowMode
+      ? function (context) {
+          style.call(
+            this,
+            createInjectorShadow(context, this.$root.$options.shadowRoot),
+          )
+        }
+      : function (context) {
+          style.call(this, createInjector(context))
+        }
+  }
+  if (hook) {
+    if (options.functional) {
+      // register for functional component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection(h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing ? [].concat(existing, hook) : [hook]
+    }
+  }
+  return script
+}
+
+var isOldIE =
+  typeof navigator !== 'undefined' &&
+  /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase())
+function createInjector(context) {
+  return function (id, style) {
+    return addStyle(id, style)
+  }
+}
+var HEAD
+var styles = {}
+function addStyle(id, css) {
+  var group = isOldIE ? css.media || 'default' : id
+  var style = styles[group] || (styles[group] = { ids: new Set(), styles: [] })
+  if (!style.ids.has(id)) {
+    style.ids.add(id)
+    var code = css.source
+    if (css.map) {
+      // https://developer.chrome.com/devtools/docs/javascript-debugging
+      // this makes source maps inside style tags work properly in Chrome
+      code += '\n/*# sourceURL=' + css.map.sources[0] + ' */'
+      // http://stackoverflow.com/a/26603875
+      code +=
+        '\n/*# sourceMappingURL=data:application/json;base64,' +
+        btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
+        ' */'
+    }
+    if (!style.element) {
+      style.element = document.createElement('style')
+      style.element.type = 'text/css'
+      if (css.media) {
+        style.element.setAttribute('media', css.media)
+      }
+      if (HEAD === undefined) {
+        HEAD = document.head || document.getElementsByTagName('head')[0]
+      }
+      HEAD.appendChild(style.element)
+    }
+    if ('styleSheet' in style.element) {
+      style.styles.push(code)
+      style.element.styleSheet.cssText = style.styles.filter(Boolean).join('\n')
+    } else {
+      var index = style.ids.size - 1
+      var textNode = document.createTextNode(code)
+      var nodes = style.element.childNodes
+      if (nodes[index]) {
+        style.element.removeChild(nodes[index])
+      }
+      if (nodes.length) {
+        style.element.insertBefore(textNode, nodes[index])
+      } else {
+        style.element.appendChild(textNode)
+      }
+    }
+  }
+}
+
+/* script */
+var __vue_script__ = script
+
+/* template */
+var __vue_render__ = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    'div',
+    {
+      directives: [
+        {
+          name: 'closable',
+          rawName: 'v-closable',
+          value: {
+            handler: 'onAway',
+            exclude: ['currentPicker'],
+          },
+          expression:
+            "{\n    handler: 'onAway',\n    exclude: ['currentPicker'],\n  }",
+        },
+      ],
+      ref: 'vTailwindPickerRef',
+      staticClass: 'relative select-none',
+      style: '--bg-tailwind-picker: ' + _vm.theme.background + ';',
+      on: { click: _vm.onFeedBack },
+    },
+    [
+      _vm._t('default'),
+      _vm._v(' '),
+      _c('transition', { attrs: { name: 'v-tailwind-picker' } }, [
+        _c(
+          'div',
+          {
+            directives: [
+              {
+                name: 'show',
+                rawName: 'v-show',
+                value: _vm.showPicker || _vm.inline,
+                expression: 'showPicker || inline',
+              },
+            ],
+          },
+          [
+            _c(
+              'div',
+              {
+                staticClass: 'bg-transparent mt-3 z-10',
+                class: [
+                  { 'inline-mode': _vm.inline },
+                  _vm.inline ? 'static' : 'absolute bottom-0 inset-x-0',
+                  _vm.theme.currentColor,
+                ],
+                attrs: { id: 'v-tailwind-picker' },
+              },
+              [
+                _c(
+                  'div',
+                  {
+                    staticClass:
+                      'w-88 h-auto max-w-xs transition-all duration-150 ease-linear rounded overflow-hidden border',
+                    class: [
+                      _vm.theme.border,
+                      _vm.theme.text,
+                      _vm.inline ? 'shadow-xs' : 'shadow-md',
+                    ],
+                    style: { backgroundColor: 'var(--bg-tailwind-picker)' },
+                  },
+                  [
+                    _c('div', { attrs: { id: 'v-tailwind-picker-header' } }, [
+                      _c(
+                        'div',
+                        {
+                          staticClass:
+                            'flex flex-row justify-center items-center px-2 py-1',
+                        },
+                        [
+                          _c(
+                            'div',
+                            {
+                              staticClass:
+                                'flex items-center text-2xl xl:text-3xl',
+                            },
+                            [
+                              _vm._v(
+                                '\n                ' +
+                                  _vm._s(_vm.today.format('DD')) +
+                                  '\n              ',
+                              ),
+                            ],
+                          ),
+                          _vm._v(' '),
+                          _c('div', { staticClass: 'mx-1' }, [
+                            _c(
+                              'div',
+                              { staticClass: 'leading-none text-xxs' },
+                              [
+                                _vm._v(
+                                  '\n                  ' +
+                                    _vm._s(_vm.today.format('dddd')) +
+                                    '\n                ',
+                                ),
+                              ],
+                            ),
+                            _vm._v(' '),
+                            _c('div', { staticClass: 'leading-none text-xs' }, [
+                              _vm._v(
+                                '\n                  ' +
+                                  _vm._s(_vm.today.format('MMMM YYYY')) +
+                                  '\n                ',
+                              ),
+                            ]),
+                          ]),
+                        ],
+                      ),
+                    ]),
+                    _vm._v(' '),
+                    _c('div', { staticClass: 'relative p-1' }, [
+                      _c('div', {
+                        staticClass: 'absolute inset-0',
+                        class: _vm.theme.navigation.background,
+                      }),
+                      _vm._v(' '),
+                      _c(
+                        'div',
+                        {
+                          staticClass:
+                            'flex justify-between items-center relative',
+                        },
+                        [
+                          _c(
+                            'div',
+                            { staticClass: 'flex-shrink-0 w-8' },
+                            [
+                              _c(
+                                'transition',
+                                {
+                                  attrs: {
+                                    name: 'v-tailwind-picker-chevron-left',
+                                  },
+                                },
+                                [
+                                  !_vm.enableMonth && !_vm.enableYear
+                                    ? _c(
+                                        'div',
+                                        {
+                                          staticClass:
+                                            'rounded-full overflow-hidden',
+                                        },
+                                        [
+                                          _c(
+                                            'div',
+                                            {
+                                              staticClass:
+                                                'transition duration-150 ease-out p-2',
+                                              class: [
+                                                _vm.visiblePrev
+                                                  ? 'cursor-pointer'
+                                                  : 'cursor-not-allowed opacity-30',
+                                                _vm.theme.navigation.hover,
+                                              ],
+                                              on: {
+                                                click: function ($event) {
+                                                  return _vm.onPrevious()
+                                                },
+                                              },
+                                            },
+                                            [
+                                              _c(
+                                                'svg',
+                                                {
+                                                  staticClass: 'h-4 w-auto',
+                                                  attrs: {
+                                                    xmlns:
+                                                      'http://www.w3.org/2000/svg',
+                                                    viewBox:
+                                                      '0 0 511.641 511.641',
+                                                    fill: 'currentColor',
+                                                  },
+                                                },
+                                                [
+                                                  _c('path', {
+                                                    attrs: {
+                                                      d:
+                                                        'M148.32 255.76L386.08 18c4.053-4.267 3.947-10.987-.213-15.04a10.763 10.763 0 00-14.827 0L125.707 248.293a10.623 10.623 0 000 15.04L371.04 508.667c4.267 4.053 10.987 3.947 15.04-.213a10.763 10.763 0 000-14.827L148.32 255.76z',
+                                                    },
+                                                  }),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      )
+                                    : _vm._e(),
+                                ],
+                              ),
+                            ],
+                            1,
+                          ),
+                          _vm._v(' '),
+                          _c('div', { staticClass: 'flex flex-1' }, [
+                            _c(
+                              'div',
+                              {
+                                staticClass:
+                                  'flex-1 rounded overflow-hidden py-1 ml-2 mr-1 text-center cursor-pointer transition duration-150 ease-out',
+                                class: [
+                                  _vm.enableMonth
+                                    ? _vm.theme.navigation.focus
+                                    : '',
+                                  _vm.theme.navigation.hover,
+                                ],
+                                on: {
+                                  click: function ($event) {
+                                    return _vm.toggleMonth()
+                                  },
+                                },
+                              },
+                              [
+                                _vm._v(
+                                  '\n                  ' +
+                                    _vm._s(_vm.today.format('MMMM')) +
+                                    '\n                ',
+                                ),
+                              ],
+                            ),
+                            _vm._v(' '),
+                            _c(
+                              'div',
+                              {
+                                staticClass:
+                                  'flex-1 rounded overflow-hidden py-1 mr-2 ml-1 text-center cursor-pointer transition duration-150 ease-out',
+                                class: [
+                                  _vm.enableYear
+                                    ? _vm.theme.navigation.focus
+                                    : '',
+                                  _vm.theme.navigation.hover,
+                                ],
+                                on: {
+                                  click: function ($event) {
+                                    return _vm.toggleYear()
+                                  },
+                                },
+                              },
+                              [
+                                _vm._v(
+                                  '\n                  ' +
+                                    _vm._s(_vm.today.$y) +
+                                    '\n                ',
+                                ),
+                              ],
+                            ),
+                          ]),
+                          _vm._v(' '),
+                          _c(
+                            'div',
+                            { staticClass: 'flex-shrink-0 w-8' },
+                            [
+                              _c(
+                                'transition',
+                                {
+                                  attrs: {
+                                    name: 'v-tailwind-picker-chevron-right',
+                                  },
+                                },
+                                [
+                                  !_vm.enableMonth && !_vm.enableYear
+                                    ? _c(
+                                        'div',
+                                        {
+                                          staticClass:
+                                            'rounded-full overflow-hidden',
+                                        },
+                                        [
+                                          _c(
+                                            'div',
+                                            {
+                                              staticClass:
+                                                'transition duration-150 ease-out p-2',
+                                              class: [
+                                                _vm.visibleNext
+                                                  ? 'cursor-pointer'
+                                                  : 'cursor-not-allowed opacity-30',
+                                                _vm.theme.navigation.hover,
+                                              ],
+                                              on: {
+                                                click: function ($event) {
+                                                  return _vm.onNext()
+                                                },
+                                              },
+                                            },
+                                            [
+                                              _c(
+                                                'svg',
+                                                {
+                                                  staticClass: 'h-4 w-auto',
+                                                  attrs: {
+                                                    xmlns:
+                                                      'http://www.w3.org/2000/svg',
+                                                    viewBox:
+                                                      '0 0 511.949 511.949',
+                                                    fill: 'currentColor',
+                                                  },
+                                                },
+                                                [
+                                                  _c('path', {
+                                                    attrs: {
+                                                      d:
+                                                        'M386.235 248.308L140.902 2.975c-4.267-4.053-10.987-3.947-15.04.213a10.763 10.763 0 000 14.827l237.76 237.76-237.76 237.867c-4.267 4.053-4.373 10.88-.213 15.04 4.053 4.267 10.88 4.373 15.04.213l.213-.213 245.333-245.333a10.624 10.624 0 000-15.041z',
+                                                    },
+                                                  }),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      )
+                                    : _vm._e(),
+                                ],
+                              ),
+                            ],
+                            1,
+                          ),
+                        ],
+                      ),
+                    ]),
+                    _vm._v(' '),
+                    _c(
+                      'div',
+                      {
+                        staticClass:
+                          'smooth-scrolling overflow-x-hidden overflow-y-auto',
+                      },
+                      [
+                        _c(
+                          'transition',
+                          { attrs: { name: 'v-tailwind-picker-body' } },
+                          [
+                            !_vm.enableMonth && !_vm.enableYear
+                              ? _c('div', { staticClass: 'relative' }, [
+                                  _c(
+                                    'div',
+                                    {
+                                      staticClass:
+                                        'flex flex-no-wrap py-2 border-b',
+                                      class: _vm.theme.border,
+                                    },
+                                    _vm._l(_vm.days, function (day) {
+                                      return _c(
+                                        'div',
+                                        {
+                                          key: day,
+                                          staticClass:
+                                            'w-1/7 flex justify-center',
+                                        },
+                                        [
+                                          _c(
+                                            'div',
+                                            {
+                                              staticClass:
+                                                'leading-relaxed text-sm',
+                                              class: [
+                                                day === 'Sun'
+                                                  ? _vm.theme.picker.holiday
+                                                  : day === 'Fri'
+                                                  ? _vm.theme.picker.weekend
+                                                  : '',
+                                              ],
+                                            },
+                                            [
+                                              _vm._v(
+                                                '\n                      ' +
+                                                  _vm._s(day) +
+                                                  '\n                    ',
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      )
+                                    }),
+                                    0,
+                                  ),
+                                  _vm._v(' '),
+                                  _c(
+                                    'div',
+                                    {
+                                      ref: 'currentPicker',
+                                      staticClass: 'flex flex-wrap relative',
+                                    },
+                                    [
+                                      _vm._l(_vm.previousPicker, function (
+                                        date,
+                                        i,
+                                      ) {
+                                        return _c(
+                                          'div',
+                                          {
+                                            key:
+                                              '' +
+                                              date.$D +
+                                              date.$M +
+                                              date.$y +
+                                              '-previous',
+                                            staticClass:
+                                              'w-1/7 flex justify-center my-2px cursor-not-allowed',
+                                            class: [
+                                              i ===
+                                              _vm.previousPicker.length - 1
+                                                ? 'rounded-r-full'
+                                                : '',
+                                              _vm.theme.navigation.background,
+                                            ],
+                                          },
+                                          [
+                                            _c(
+                                              'div',
+                                              {
+                                                staticClass:
+                                                  'h-8 w-8 flex justify-center items-center',
+                                                attrs: {
+                                                  'data-tailwind-datepicker':
+                                                    date.$d,
+                                                },
+                                              },
+                                              [
+                                                _c(
+                                                  'div',
+                                                  {
+                                                    staticClass:
+                                                      'text-xs opacity-75',
+                                                    class: [
+                                                      date.day() === 0
+                                                        ? _vm.theme.picker
+                                                            .holiday
+                                                        : date.day() === 5
+                                                        ? _vm.theme.picker
+                                                            .weekend
+                                                        : '',
+                                                    ],
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      '\n                        ' +
+                                                        _vm._s(date.$D) +
+                                                        '\n                      ',
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        )
+                                      }),
+                                      _vm._v(' '),
+                                      _vm._l(_vm.currentPicker, function (
+                                        date,
+                                      ) {
+                                        return _c(
+                                          'div',
+                                          {
+                                            key:
+                                              '' +
+                                              date.$D +
+                                              date.$M +
+                                              date.$y +
+                                              '-current',
+                                            staticClass:
+                                              'w-1/7 group flex justify-center items-center my-2px',
+                                          },
+                                          [
+                                            _c(
+                                              'div',
+                                              {
+                                                staticClass:
+                                                  'relative overflow-hidden',
+                                                class: _vm.theme.picker.rounded,
+                                              },
+                                              [
+                                                date.$events
+                                                  ? _c('div', {
+                                                      staticClass:
+                                                        'absolute top-0 right-0 h-2 w-2 z-2',
+                                                      class:
+                                                        _vm.theme.picker.event,
+                                                      style: {
+                                                        backgroundColor: date
+                                                          .$events.color
+                                                          ? date.$events.color
+                                                          : '',
+                                                      },
+                                                    })
+                                                  : _vm._e(),
+                                                _vm._v(' '),
+                                                _c(
+                                                  'div',
+                                                  {
+                                                    staticClass:
+                                                      'relative h-8 w-8 flex justify-center items-center overflow-hidden',
+                                                    class: [
+                                                      _vm.theme.picker.rounded,
+                                                      _vm.possibleDate(date)
+                                                        ? 'cursor-pointer'
+                                                        : 'cursor-not-allowed',
+                                                    ],
+                                                  },
+                                                  [
+                                                    _vm.possibleDate(date)
+                                                      ? _c('div', {
+                                                          staticClass:
+                                                            'absolute inset-0 transition duration-150 ease-in-out border border-dotted border-transparent',
+                                                          class: [
+                                                            _vm.theme.picker
+                                                              .rounded,
+                                                            _vm.possibleDate(
+                                                              date,
+                                                            )
+                                                              ? 'hover:' +
+                                                                _vm.theme.picker
+                                                                  .selected
+                                                                  .border
+                                                              : '',
+                                                            date.$D ===
+                                                            _vm.today.$D
+                                                              ? _vm.theme.picker
+                                                                  .selected
+                                                                  .background +
+                                                                ' shadow-xs'
+                                                              : '',
+                                                          ],
+                                                          on: {
+                                                            click: function (
+                                                              $event,
+                                                            ) {
+                                                              return _vm.changePicker(
+                                                                date,
+                                                              )
+                                                            },
+                                                          },
+                                                        })
+                                                      : _vm._e(),
+                                                    _vm._v(' '),
+                                                    _c(
+                                                      'div',
+                                                      {
+                                                        staticClass:
+                                                          'flex justify-center items-center',
+                                                        attrs: {
+                                                          'data-tailwind-datepicker':
+                                                            date.$d,
+                                                        },
+                                                      },
+                                                      [
+                                                        _c(
+                                                          'div',
+                                                          {
+                                                            class: [
+                                                              (_vm.holidayDate(
+                                                                date,
+                                                              ) ||
+                                                                date.day() ===
+                                                                  0) &&
+                                                              date.$D !==
+                                                                _vm.today.$D
+                                                                ? _vm.theme
+                                                                    .picker
+                                                                    .holiday
+                                                                : '',
+                                                              date.day() ===
+                                                                5 &&
+                                                              date.$D !==
+                                                                _vm.today.$D
+                                                                ? _vm.theme
+                                                                    .picker
+                                                                    .weekend
+                                                                : '',
+                                                              {
+                                                                'z-10 text-white ':
+                                                                  date.$D ===
+                                                                    _vm.today
+                                                                      .$D &&
+                                                                  _vm.possibleDate(
+                                                                    date,
+                                                                  ),
+                                                              },
+                                                              {
+                                                                'opacity-50': !_vm.possibleDate(
+                                                                  date,
+                                                                ),
+                                                              },
+                                                            ],
+                                                          },
+                                                          [
+                                                            _c('span', [
+                                                              _vm._v(
+                                                                _vm._s(date.$D),
+                                                              ),
+                                                            ]),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        )
+                                      }),
+                                      _vm._v(' '),
+                                      _vm._l(_vm.nextPicker, function (date) {
+                                        return _c(
+                                          'div',
+                                          {
+                                            key:
+                                              '' +
+                                              date.$D +
+                                              date.$M +
+                                              date.$y +
+                                              '-next',
+                                            staticClass:
+                                              'w-1/7 flex justify-center my-2px cursor-not-allowed',
+                                            class: [
+                                              date.$D === 1
+                                                ? 'rounded-l-full'
+                                                : '',
+                                              _vm.theme.navigation.background,
+                                            ],
+                                          },
+                                          [
+                                            _c(
+                                              'div',
+                                              {
+                                                staticClass:
+                                                  'h-8 w-8 flex justify-center items-center',
+                                                attrs: {
+                                                  'data-tailwind-datepicker':
+                                                    date.$d,
+                                                },
+                                              },
+                                              [
+                                                _c(
+                                                  'div',
+                                                  {
+                                                    staticClass:
+                                                      'text-xs opacity-75',
+                                                    class: [
+                                                      date.day() ===
+                                                      (_vm.startFromMonday
+                                                        ? 1
+                                                        : 0)
+                                                        ? _vm.theme.picker
+                                                            .holiday
+                                                        : date.day() ===
+                                                          (_vm.startFromMonday
+                                                            ? 6
+                                                            : 5)
+                                                        ? _vm.theme.picker
+                                                            .weekend
+                                                        : '',
+                                                    ],
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      '\n                        ' +
+                                                        _vm._s(date.$D) +
+                                                        '\n                      ',
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        )
+                                      }),
+                                    ],
+                                    2,
+                                  ),
+                                ])
+                              : _vm._e(),
+                          ],
+                        ),
+                        _vm._v(' '),
+                        _c(
+                          'transition',
+                          { attrs: { name: 'v-tailwind-picker-months' } },
+                          [
+                            _vm.enableMonth
+                              ? _c(
+                                  'div',
+                                  {
+                                    staticClass:
+                                      'relative flex items-center smooth-scrolling overflow-y-auto overflow-x-hidden',
+                                  },
+                                  [
+                                    _c(
+                                      'div',
+                                      { staticClass: 'flex flex-wrap py-1' },
+                                      _vm._l(_vm.months, function (month, i) {
+                                        return _c(
+                                          'div',
+                                          {
+                                            key: i,
+                                            staticClass:
+                                              'w-1/3 flex justify-center items-center px-2',
+                                          },
+                                          [
+                                            _c(
+                                              'div',
+                                              {
+                                                staticClass:
+                                                  'w-full flex justify-center items-center py-2 my-1 transition duration-150 ease-out rounded border cursor-pointer',
+                                                class: [
+                                                  i === _vm.today.$M
+                                                    ? '' +
+                                                      _vm.theme.picker.selected
+                                                        .border
+                                                    : _vm.theme.border +
+                                                      ' ' +
+                                                      _vm.theme.picker.selected
+                                                        .hover,
+                                                ],
+                                                on: {
+                                                  click: function ($event) {
+                                                    return _vm.setMonth(i)
+                                                  },
+                                                },
+                                              },
+                                              [
+                                                _c(
+                                                  'span',
+                                                  {
+                                                    staticClass: 'font-medium',
+                                                  },
+                                                  [_vm._v(_vm._s(month))],
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        )
+                                      }),
+                                      0,
+                                    ),
+                                  ],
+                                )
+                              : _vm._e(),
+                          ],
+                        ),
+                        _vm._v(' '),
+                        _c(
+                          'transition',
+                          { attrs: { name: 'v-tailwind-picker-years' } },
+                          [
+                            _vm.enableYear
+                              ? _c(
+                                  'div',
+                                  {
+                                    staticClass:
+                                      'relative smooth-scrolling overflow-y-auto overflow-x-hidden',
+                                  },
+                                  [
+                                    _c(
+                                      'div',
+                                      { staticClass: 'flex flex-wrap py-1' },
+                                      _vm._l(_vm.years, function (year, i) {
+                                        return _c(
+                                          'div',
+                                          {
+                                            key: i,
+                                            staticClass:
+                                              'w-1/3 flex justify-center items-center px-2',
+                                          },
+                                          [
+                                            _c(
+                                              'div',
+                                              {
+                                                staticClass:
+                                                  'w-full flex justify-center items-center py-2 my-1 transition duration-150 ease-out rounded border cursor-pointer',
+                                                class: [
+                                                  year === _vm.today.$y
+                                                    ? '' +
+                                                      _vm.theme.picker.selected
+                                                        .border
+                                                    : _vm.theme.border +
+                                                      ' ' +
+                                                      _vm.theme.picker.selected
+                                                        .hover,
+                                                ],
+                                                on: {
+                                                  click: function ($event) {
+                                                    return _vm.setYear(year)
+                                                  },
+                                                },
+                                              },
+                                              [
+                                                _c(
+                                                  'span',
+                                                  {
+                                                    staticClass: 'font-medium',
+                                                  },
+                                                  [_vm._v(_vm._s(year))],
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        )
+                                      }),
+                                      0,
+                                    ),
+                                  ],
+                                )
+                              : _vm._e(),
+                          ],
+                        ),
+                      ],
+                      1,
+                    ),
+                    _vm._v(' '),
+                    _vm.currentPicker.filter(function (o) {
+                      return o.$events !== undefined
+                    }).length > 0
+                      ? _c(
+                          'div',
+                          { attrs: { id: 'v-tailwind-picker-footer' } },
+                          [
+                            _c(
+                              'transition-group',
+                              {
+                                staticClass: 'flex flex-wrap border-t p-1',
+                                class: _vm.theme.event.border,
+                                attrs: {
+                                  name: 'v-tailwind-picker-footer',
+                                  tag: 'div',
+                                },
+                              },
+                              _vm._l(
+                                _vm.currentPicker.filter(function (o) {
+                                  return o.$events !== undefined
+                                }),
+                                function (event, i) {
+                                  return _c(
+                                    'div',
+                                    {
+                                      key: i + '-event',
+                                      staticClass:
+                                        'w-full flex flex-row space-x-1 mb-px',
+                                    },
+                                    [
+                                      _c(
+                                        'div',
+                                        {
+                                          staticClass:
+                                            'inline-flex justify-end w-4',
+                                        },
+                                        [
+                                          _c(
+                                            'span',
+                                            {
+                                              staticClass:
+                                                'text-xs leading-none',
+                                              class: _vm.theme.picker.holiday,
+                                            },
+                                            [
+                                              _vm._v(
+                                                '\n                    ' +
+                                                  _vm._s(
+                                                    _vm.dayjs(
+                                                      event.$events.date,
+                                                      _vm.formatDate,
+                                                    ).$D,
+                                                  ) +
+                                                  '\n                  ',
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      _vm._v(' '),
+                                      _c(
+                                        'div',
+                                        { staticClass: 'flex flex-wrap' },
+                                        [
+                                          _c(
+                                            'div',
+                                            {
+                                              staticClass:
+                                                'w-full flex items-end',
+                                            },
+                                            [
+                                              _c(
+                                                'span',
+                                                {
+                                                  staticClass:
+                                                    'text-xxs leading-none',
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    '\n                      ' +
+                                                      _vm._s(
+                                                        event.$events
+                                                          .description,
+                                                      ) +
+                                                      '\n                    ',
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  )
+                                },
+                              ),
+                              0,
+                            ),
+                          ],
+                          1,
+                        )
+                      : _vm._e(),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ]),
+    ],
+    2,
+  )
+}
+var __vue_staticRenderFns__ = []
+__vue_render__._withStripped = true
+
+/* style */
+var __vue_inject_styles__ = function (inject) {
+  if (!inject) {
+    return
+  }
+  inject('data-v-2363b92c_0', {
+    source:
+      "\n#v-tailwind-picker[data-v-2363b92c] {\n  top: 95%;\n}\n#v-tailwind-picker .w-1\\/7[data-v-2363b92c] {\n  width: 14.285714%;\n}\n#v-tailwind-picker .w-88[data-v-2363b92c] {\n  width: 22rem;\n}\n#v-tailwind-picker .text-xxs[data-v-2363b92c] {\n  font-size: 0.6rem;\n}\n#v-tailwind-picker .my-2px[data-v-2363b92c] {\n  margin-top: 2px;\n  margin-bottom: 2px;\n}\n#v-tailwind-picker[data-v-2363b92c]:not(.inline-mode)::before {\n  content: '';\n  width: 14px;\n  height: 14px;\n  z-index: 10;\n  top: -7px;\n  left: 12px;\n  border-radius: 2px;\n  border-color: currentColor;\n  position: absolute;\n  display: block;\n  background-color: var(--bg-tailwind-picker);\n  border-left-width: 1px;\n  border-top-width: 1px;\n  transform: rotate(45deg);\n}\n#v-tailwind-picker .smooth-scrolling[data-v-2363b92c] {\n  height: 255px;\n  max-height: 255px;\n}\n#v-tailwind-picker .smooth-scrolling[data-v-2363b92c]::-webkit-scrollbar {\n  width: 4px;\n}\n#v-tailwind-picker .smooth-scrolling[data-v-2363b92c] ::-webkit-scrollbar-thumb {\n  border-radius: 8px;\n  background-color: rgba(0, 0, 0, 0.1);\n}\n.v-tailwind-picker-enter-active[data-v-2363b92c],\n.v-tailwind-picker-leave-active[data-v-2363b92c] {\n  transition: all 0.1s;\n}\n.v-tailwind-picker-enter[data-v-2363b92c],\n.v-tailwind-picker-leave-to[data-v-2363b92c] {\n  opacity: 0;\n  transform: translateY(15px);\n}\n.v-tailwind-picker-body-enter-active[data-v-2363b92c],\n.v-tailwind-picker-body-leave-active[data-v-2363b92c] {\n  transition: all 0.2s;\n}\n.v-tailwind-picker-body-enter[data-v-2363b92c],\n.v-tailwind-picker-body-leave-to[data-v-2363b92c] {\n  opacity: 0;\n  transform: translateY(-15px);\n}\n.v-tailwind-picker-months-enter-active[data-v-2363b92c],\n.v-tailwind-picker-months-leave-active[data-v-2363b92c] {\n  transition: all 0.2s;\n}\n.v-tailwind-picker-months-enter[data-v-2363b92c],\n.v-tailwind-picker-months-leave-to[data-v-2363b92c] {\n  opacity: 0;\n  transform: translateY(-15px);\n}\n.v-tailwind-picker-years-enter-active[data-v-2363b92c],\n.v-tailwind-picker-years-leave-active[data-v-2363b92c] {\n  transition: all 0.2s;\n}\n.v-tailwind-picker-years-enter[data-v-2363b92c],\n.v-tailwind-picker-years-leave-to[data-v-2363b92c] {\n  opacity: 0;\n  transform: translateY(-15px);\n}\n.v-tailwind-picker-footer-enter-active[data-v-2363b92c],\n.v-tailwind-picker-footer-leave-active[data-v-2363b92c] {\n  transition: all 0.2s;\n}\n.v-tailwind-picker-footer-enter[data-v-2363b92c],\n.v-tailwind-picker-footer-leave-to[data-v-2363b92c] {\n  opacity: 0;\n  transform: translateY(-15px);\n}\n",
+    map: {
+      version: 3,
+      sources: [
+        '/Users/user/Documents/RoomMe/feelin-website/.packages/vue-tailwind-picker/src/vue-tailwind-picker.vue',
+      ],
+      names: [],
+      mappings:
+        ';AAqxBA;EACA,QAAA;AACA;AAEA;EACA,iBAAA;AACA;AAEA;EACA,YAAA;AACA;AAEA;EACA,iBAAA;AACA;AAEA;EACA,eAAA;EACA,kBAAA;AACA;AAEA;EACA,WAAA;EACA,WAAA;EACA,YAAA;EACA,WAAA;EACA,SAAA;EACA,UAAA;EACA,kBAAA;EACA,0BAAA;EACA,kBAAA;EACA,cAAA;EACA,2CAAA;EACA,sBAAA;EACA,qBAAA;EACA,wBAAA;AACA;AAEA;EACA,aAAA;EACA,iBAAA;AACA;AAEA;EACA,UAAA;AACA;AAEA;EACA,kBAAA;EACA,oCAAA;AACA;AAEA;;EAEA,oBAAA;AACA;AAEA;;EAEA,UAAA;EACA,2BAAA;AACA;AAEA;;EAEA,oBAAA;AACA;AAEA;;EAEA,UAAA;EACA,4BAAA;AACA;AAEA;;EAEA,oBAAA;AACA;AAEA;;EAEA,UAAA;EACA,4BAAA;AACA;AAEA;;EAEA,oBAAA;AACA;AAEA;;EAEA,UAAA;EACA,4BAAA;AACA;AAEA;;EAEA,oBAAA;AACA;AAEA;;EAEA,UAAA;EACA,4BAAA;AACA',
+      file: 'vue-tailwind-picker.vue',
+      sourcesContent: [
+        '<template>\n  <div\n    ref="vTailwindPickerRef"\n    class="relative select-none"\n    v-closable="{\n      handler: \'onAway\',\n      exclude: [\'currentPicker\'],\n    }"\n    @click="onFeedBack"\n    :style="`--bg-tailwind-picker: ${theme.background};`"\n  >\n    <slot></slot>\n    <transition name="v-tailwind-picker">\n      <div v-show="showPicker || inline">\n        <div\n          id="v-tailwind-picker"\n          class="bg-transparent mt-3 z-10"\n          :class="[\n            { \'inline-mode\': inline },\n            inline ? \'static\' : \'absolute bottom-0 inset-x-0\',\n            theme.currentColor,\n          ]"\n        >\n          <div\n            class="w-88 h-auto max-w-xs transition-all duration-150 ease-linear rounded overflow-hidden border"\n            :class="[\n              theme.border,\n              theme.text,\n              inline ? \'shadow-xs\' : \'shadow-md\',\n            ]"\n            :style="{ backgroundColor: `var(--bg-tailwind-picker)` }"\n          >\n            <!--            Header of picker-->\n            <div id="v-tailwind-picker-header">\n              <div class="flex flex-row justify-center items-center px-2 py-1">\n                <div class="flex items-center text-2xl xl:text-3xl">\n                  {{ today.format(\'DD\') }}\n                </div>\n                <div class="mx-1">\n                  <div class="leading-none text-xxs">\n                    {{ today.format(\'dddd\') }}\n                  </div>\n                  <div class="leading-none text-xs">\n                    {{ today.format(\'MMMM YYYY\') }}\n                  </div>\n                </div>\n              </div>\n            </div>\n            <!--            Navigation of picker-->\n            <div class="relative p-1">\n              <div\n                class="absolute inset-0"\n                :class="theme.navigation.background"\n              ></div>\n              <div class="flex justify-between items-center relative">\n                <div class="flex-shrink-0 w-8">\n                  <transition name="v-tailwind-picker-chevron-left">\n                    <div\n                      v-if="!enableMonth && !enableYear"\n                      class="rounded-full overflow-hidden"\n                    >\n                      <div\n                        class="transition duration-150 ease-out p-2"\n                        :class="[\n                          visiblePrev\n                            ? \'cursor-pointer\'\n                            : \'cursor-not-allowed opacity-30\',\n                          theme.navigation.hover,\n                        ]"\n                        @click="onPrevious()"\n                      >\n                        <svg\n                          class="h-4 w-auto"\n                          xmlns="http://www.w3.org/2000/svg"\n                          viewBox="0 0 511.641 511.641"\n                          fill="currentColor"\n                        >\n                          <path\n                            d="M148.32 255.76L386.08 18c4.053-4.267 3.947-10.987-.213-15.04a10.763 10.763 0 00-14.827 0L125.707 248.293a10.623 10.623 0 000 15.04L371.04 508.667c4.267 4.053 10.987 3.947 15.04-.213a10.763 10.763 0 000-14.827L148.32 255.76z"\n                          />\n                        </svg>\n                      </div>\n                    </div>\n                  </transition>\n                </div>\n                <div class="flex flex-1">\n                  <div\n                    class="flex-1 rounded overflow-hidden py-1 ml-2 mr-1 text-center cursor-pointer transition duration-150 ease-out"\n                    :class="[\n                      enableMonth ? theme.navigation.focus : \'\',\n                      theme.navigation.hover,\n                    ]"\n                    @click="toggleMonth()"\n                  >\n                    {{ today.format(\'MMMM\') }}\n                  </div>\n                  <div\n                    class="flex-1 rounded overflow-hidden py-1 mr-2 ml-1 text-center cursor-pointer transition duration-150 ease-out"\n                    :class="[\n                      enableYear ? theme.navigation.focus : \'\',\n                      theme.navigation.hover,\n                    ]"\n                    @click="toggleYear()"\n                  >\n                    {{ today.$y }}\n                  </div>\n                </div>\n\n                <div class="flex-shrink-0 w-8">\n                  <transition name="v-tailwind-picker-chevron-right">\n                    <div\n                      v-if="!enableMonth && !enableYear"\n                      class="rounded-full overflow-hidden"\n                    >\n                      <div\n                        class="transition duration-150 ease-out p-2"\n                        :class="[\n                          visibleNext\n                            ? \'cursor-pointer\'\n                            : \'cursor-not-allowed opacity-30\',\n                          theme.navigation.hover,\n                        ]"\n                        @click="onNext()"\n                      >\n                        <svg\n                          class="h-4 w-auto"\n                          xmlns="http://www.w3.org/2000/svg"\n                          viewBox="0 0 511.949 511.949"\n                          fill="currentColor"\n                        >\n                          <path\n                            d="M386.235 248.308L140.902 2.975c-4.267-4.053-10.987-3.947-15.04.213a10.763 10.763 0 000 14.827l237.76 237.76-237.76 237.867c-4.267 4.053-4.373 10.88-.213 15.04 4.053 4.267 10.88 4.373 15.04.213l.213-.213 245.333-245.333a10.624 10.624 0 000-15.041z"\n                          />\n                        </svg>\n                      </div>\n                    </div>\n                  </transition>\n                </div>\n              </div>\n            </div>\n            <!--            Body of picker-->\n            <div class="smooth-scrolling overflow-x-hidden overflow-y-auto">\n              <transition name="v-tailwind-picker-body">\n                <div v-if="!enableMonth && !enableYear" class="relative">\n                  <div\n                    class="flex flex-no-wrap py-2 border-b"\n                    :class="theme.border"\n                  >\n                    <div\n                      v-for="day in days"\n                      :key="day"\n                      class="w-1/7 flex justify-center"\n                    >\n                      <div\n                        class="leading-relaxed text-sm"\n                        :class="[\n                          day === \'Sun\'\n                            ? theme.picker.holiday\n                            : day === \'Fri\'\n                            ? theme.picker.weekend\n                            : \'\',\n                        ]"\n                      >\n                        {{ day }}\n                      </div>\n                    </div>\n                  </div>\n\n                  <div ref="currentPicker" class="flex flex-wrap relative">\n                    <div\n                      v-for="(date, i) in previousPicker"\n                      :key="`${date.$D}${date.$M}${date.$y}-previous`"\n                      class="w-1/7 flex justify-center my-2px cursor-not-allowed"\n                      :class="[\n                        i === previousPicker.length - 1 ? \'rounded-r-full\' : \'\',\n                        theme.navigation.background,\n                      ]"\n                    >\n                      <div\n                        class="h-8 w-8 flex justify-center items-center"\n                        :data-tailwind-datepicker="date.$d"\n                      >\n                        <div\n                          class="text-xs opacity-75"\n                          :class="[\n                            date.day() === 0\n                              ? theme.picker.holiday\n                              : date.day() === 5\n                              ? theme.picker.weekend\n                              : \'\',\n                          ]"\n                        >\n                          {{ date.$D }}\n                        </div>\n                      </div>\n                    </div>\n\n                    <div\n                      v-for="date in currentPicker"\n                      :key="`${date.$D}${date.$M}${date.$y}-current`"\n                      class="w-1/7 group flex justify-center items-center my-2px"\n                    >\n                      <div\n                        class="relative overflow-hidden"\n                        :class="theme.picker.rounded"\n                      >\n                        <div\n                          v-if="date.$events"\n                          class="absolute top-0 right-0 h-2 w-2 z-2"\n                          :class="theme.picker.event"\n                          :style="{\n                            backgroundColor: date.$events.color\n                              ? date.$events.color\n                              : \'\',\n                          }"\n                        ></div>\n                        <div\n                          class="relative h-8 w-8 flex justify-center items-center overflow-hidden"\n                          :class="[\n                            theme.picker.rounded,\n                            possibleDate(date)\n                              ? \'cursor-pointer\'\n                              : \'cursor-not-allowed\',\n                          ]"\n                        >\n                          <div\n                            v-if="possibleDate(date)"\n                            class="absolute inset-0 transition duration-150 ease-in-out border border-dotted border-transparent"\n                            :class="[\n                              theme.picker.rounded,\n                              possibleDate(date)\n                                ? `hover:${theme.picker.selected.border}`\n                                : \'\',\n                              date.$D === today.$D\n                                ? `${theme.picker.selected.background} shadow-xs`\n                                : \'\',\n                            ]"\n                            @click="changePicker(date)"\n                          ></div>\n                          <div\n                            class="flex justify-center items-center"\n                            :data-tailwind-datepicker="date.$d"\n                          >\n                            <div\n                              :class="[\n                                (holidayDate(date) || date.day() === 0) &&\n                                date.$D !== today.$D\n                                  ? theme.picker.holiday\n                                  : \'\',\n                                date.day() === 5 && date.$D !== today.$D\n                                  ? theme.picker.weekend\n                                  : \'\',\n                                {\n                                  \'z-10 text-white \':\n                                    date.$D === today.$D && possibleDate(date),\n                                },\n                                {\n                                  \'opacity-50\': !possibleDate(date),\n                                },\n                              ]"\n                            >\n                              <span>{{ date.$D }}</span>\n                            </div>\n                          </div>\n                        </div>\n                      </div>\n                    </div>\n\n                    <div\n                      v-for="date in nextPicker"\n                      :key="`${date.$D}${date.$M}${date.$y}-next`"\n                      class="w-1/7 flex justify-center my-2px cursor-not-allowed"\n                      :class="[\n                        date.$D === 1 ? \'rounded-l-full\' : \'\',\n                        theme.navigation.background,\n                      ]"\n                    >\n                      <div\n                        class="h-8 w-8 flex justify-center items-center"\n                        :data-tailwind-datepicker="date.$d"\n                      >\n                        <div\n                          class="text-xs opacity-75"\n                          :class="[\n                            date.day() === (startFromMonday ? 1 : 0)\n                              ? theme.picker.holiday\n                              : date.day() === (startFromMonday ? 6 : 5)\n                              ? theme.picker.weekend\n                              : \'\',\n                          ]"\n                        >\n                          {{ date.$D }}\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </transition>\n              <transition name="v-tailwind-picker-months">\n                <div\n                  v-if="enableMonth"\n                  class="relative flex items-center smooth-scrolling overflow-y-auto overflow-x-hidden"\n                >\n                  <div class="flex flex-wrap py-1">\n                    <div\n                      v-for="(month, i) in months"\n                      :key="i"\n                      class="w-1/3 flex justify-center items-center px-2"\n                    >\n                      <div\n                        :class="[\n                          i === today.$M\n                            ? `${theme.picker.selected.border}`\n                            : `${theme.border} ${theme.picker.selected.hover}`,\n                        ]"\n                        class="w-full flex justify-center items-center py-2 my-1 transition duration-150 ease-out rounded border cursor-pointer"\n                        @click="setMonth(i)"\n                      >\n                        <span class="font-medium">{{ month }}</span>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </transition>\n              <transition name="v-tailwind-picker-years">\n                <div\n                  v-if="enableYear"\n                  class="relative smooth-scrolling overflow-y-auto overflow-x-hidden"\n                >\n                  <div class="flex flex-wrap py-1">\n                    <div\n                      v-for="(year, i) in years"\n                      :key="i"\n                      class="w-1/3 flex justify-center items-center px-2"\n                    >\n                      <div\n                        :class="[\n                          year === today.$y\n                            ? `${theme.picker.selected.border}`\n                            : `${theme.border} ${theme.picker.selected.hover}`,\n                        ]"\n                        class="w-full flex justify-center items-center py-2 my-1 transition duration-150 ease-out rounded border cursor-pointer"\n                        @click="setYear(year)"\n                      >\n                        <span class="font-medium">{{ year }}</span>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n              </transition>\n            </div>\n            <!--            Event of picker-->\n            <div\n              v-if="\n                currentPicker.filter((o) => o.$events !== undefined).length > 0\n              "\n              id="v-tailwind-picker-footer"\n            >\n              <transition-group\n                name="v-tailwind-picker-footer"\n                tag="div"\n                class="flex flex-wrap border-t p-1"\n                :class="theme.event.border"\n              >\n                <div\n                  v-for="(event, i) in currentPicker.filter(\n                    (o) => o.$events !== undefined,\n                  )"\n                  :key="`${i}-event`"\n                  class="w-full flex flex-row space-x-1 mb-px"\n                >\n                  <div class="inline-flex justify-end w-4">\n                    <span\n                      class="text-xs leading-none"\n                      :class="theme.picker.holiday"\n                    >\n                      {{ dayjs(event.$events.date, formatDate).$D }}\n                    </span>\n                  </div>\n                  <div class="flex flex-wrap">\n                    <div class="w-full flex items-end">\n                      <span class="text-xxs leading-none">\n                        {{ event.$events.description }}\n                      </span>\n                    </div>\n                  </div>\n                </div>\n              </transition-group>\n            </div>\n          </div>\n        </div>\n      </div>\n    </transition>\n  </div>\n</template>\n\n<script>\nimport dayjs from \'dayjs\'\nimport isToday from \'dayjs/plugin/isToday\'\nimport customParseFormat from \'dayjs/plugin/customParseFormat\'\nimport isBetween from \'dayjs/plugin/isBetween\'\nimport localizedFormat from \'dayjs/plugin/localizedFormat\'\nimport advancedFormat from \'dayjs/plugin/advancedFormat\'\nimport isSameOrBefore from \'dayjs/plugin/isSameOrBefore\'\nimport isSameOrAfter from \'dayjs/plugin/isSameOrAfter\'\n\ndayjs.extend(isToday)\ndayjs.extend(customParseFormat)\ndayjs.extend(isBetween)\ndayjs.extend(localizedFormat)\ndayjs.extend(advancedFormat)\ndayjs.extend(isSameOrBefore)\ndayjs.extend(isSameOrAfter)\n\nlet handleOutsideClick\n\n// import \'./css/tailwind.css\' // Development only\n\n/**\n * Author: kenhyuwa <wahyu.dhiraashandy8@gmail.com\n * Url: https://github.com/kenhyuwa\n **/\n\nexport default {\n  name: \'VueTailwindPicker\',\n  directives: {\n    closable: {\n      // https://github.com/TahaSh/vue-closable // resource\n      bind(el, binding, vnode) {\n        // Here\'s the click/touchstart handler\n        // (it is registered below)\n        handleOutsideClick = (e) => {\n          e.stopPropagation()\n          // Get the handler method name and the exclude array\n          // from the object used in v-closable\n          const { handler, exclude } = binding.value\n\n          // This variable indicates if the clicked element is excluded\n          let clickedOnExcludedEl = false\n          if (exclude) {\n            exclude.forEach((refName) => {\n              // We only run this code if we haven\'t detected\n              // any excluded element yet\n              if (!clickedOnExcludedEl) {\n                // Get the element using the reference name\n                const excludedEl = vnode.context.$refs[refName]\n                // See if this excluded element\n                // is the same element the user just clicked on\n                clickedOnExcludedEl = excludedEl\n                  ? excludedEl.contains(e.target)\n                  : false\n              }\n            })\n          }\n\n          // We check to see if the clicked element is not\n          // the dialog element and not excluded\n          if (clickedOnExcludedEl && vnode.context.autoClose) {\n            vnode.context[handler]()\n          }\n          if (!el.contains(e.target) && !clickedOnExcludedEl) {\n            // If the clicked element is outside the dialog\n            // and not the button, then call the outside-click handler\n            // from the same component this directive is used in\n            vnode.context[handler]()\n          }\n        }\n        // Register click/touchstart event listeners on the whole page\n        document.addEventListener(\'click\', handleOutsideClick)\n        document.addEventListener(\'touchstart\', handleOutsideClick)\n      },\n\n      unbind() {\n        // If the element that has v-closable is removed, then\n        // unbind click/touchstart listeners from the whole page\n        document.removeEventListener(\'click\', handleOutsideClick)\n        document.removeEventListener(\'touchstart\', handleOutsideClick)\n      },\n    },\n  },\n  props: {\n    init: {\n      type: Boolean,\n      required: false,\n      default: true,\n    },\n    startDate: {\n      type: String,\n      required: false,\n      default: dayjs().format(\'YYYY-MM-DD\'),\n    },\n    endDate: {\n      type: String,\n      required: false,\n      default: undefined,\n    },\n    // Next future\n    disableDate: {\n      type: Array,\n      required: false,\n      default: () => [],\n    },\n    eventDate: {\n      type: Array,\n      required: false,\n      default: () => [],\n    },\n    formatDate: {\n      type: String,\n      required: false,\n      default: \'YYYY-MM-DD\',\n    },\n    // Confused with this\n    formatDisplay: {\n      type: String,\n      required: false,\n      default: \'YYYY-MM-DD\',\n    },\n    inline: {\n      type: Boolean,\n      required: false,\n      default: false,\n    },\n    // Not make sure with this\n    tailwindPickerValue: {\n      type: String,\n      required: false,\n      default: \'\',\n    },\n    // Next future\n    dateRange: {\n      type: Boolean,\n      required: false,\n      default: false,\n    },\n    // Next future\n    autoClose: {\n      type: Boolean,\n      required: false,\n      default: true,\n    },\n    startFromMonday: {\n      type: Boolean,\n      required: false,\n      default: false,\n    },\n    theme: {\n      type: Object,\n      required: false,\n      default: () => ({\n        background: \'#FFFFFF\',\n        text: \'text-gray-700\',\n        border: \'border-gray-200\',\n        currentColor: \'text-gray-200\',\n        navigation: {\n          background: \'bg-gray-100\',\n          hover: \'hover:bg-gray-200\',\n          focus: \'bg-gray-200\',\n        },\n        picker: {\n          rounded: \'rounded-full\',\n          selected: {\n            background: \'bg-red-500\',\n            border: \'border-red-500\',\n            hover: \'hover:border-red-500\',\n          },\n          holiday: \'text-red-400\',\n          weekend: \'text-green-400\',\n          event: \'bg-indigo-500\',\n        },\n        event: {\n          border: \'border-gray-200\',\n        },\n      }),\n    },\n  },\n  data() {\n    const startDatepicker = dayjs(this.startDate, this.formatDate)\n    // Featured for my own project\n    //   .add(\n    //   dayjs().hour() >= 20 ? 1 : 0,\n    //   \'day\',\n    // )\n    const endDatepicker = this.endDate\n      ? dayjs(this.endDate, this.formatDate)\n      : undefined\n    const today = dayjs(startDatepicker, this.formatDate)\n    const months = Array.from(Array(12), (v, i) => {\n      return dayjs().month(i).format(\'MMMM\')\n    })\n    const years = Array.from(\n      Array(\n        this.endDate\n          ? endDatepicker.diff(today, \'year\') + 1\n          : today.diff(today, \'year\') + 36,\n      ),\n      (v, i) => {\n        return today.add(i, \'year\').$y\n      },\n    )\n    const visibleMonth = false\n    const visibleYear = false\n    const showPicker = false\n    return {\n      startDatepicker,\n      endDatepicker,\n      today,\n      visibleMonth,\n      months,\n      visibleYear,\n      years,\n      showPicker,\n    }\n  },\n  computed: {\n    days() {\n      const customWeekend = this.startFromMonday ? 1 : 0\n      return Array.from(Array(7), (v, i) => {\n        return dayjs()\n          .day(i + customWeekend)\n          .format(\'ddd\')\n      })\n    },\n    previousPicker() {\n      const customWeekend = this.startFromMonday ? 1 : 0\n      const display = []\n      const previous = this.today.date(0)\n      const current = this.today.date(0)\n      for (let i = 0; i <= current.day() - customWeekend; i++) {\n        display.push(previous.subtract(i, \'day\'))\n      }\n      return display.sort((a, b) => a.$d - b.$d)\n    },\n    currentPicker() {\n      const customWeekend = this.startFromMonday ? 1 : 0\n      const eventDate = this.eventDate.length > 0 ? this.eventDate : []\n      return Array.from(\n        Array(this.today.daysInMonth() - customWeekend),\n        (v, i) => {\n          const events = this.today.date(++i)\n          events.$events = eventDate.find((o) => {\n            return o.date === events.format(this.formatDate)\n          })\n          return events\n        },\n      )\n    },\n    nextPicker() {\n      const customWeekend = this.startFromMonday ? 1 : 0\n      const display = []\n      const previous = this.previousPicker.length\n      const current = this.today.daysInMonth()\n      for (let i = 1; i <= 42 - (previous + current) + customWeekend; i++) {\n        display.push(this.today.date(i).add(1, \'month\'))\n      }\n      return display\n    },\n    enableMonth() {\n      return this.visibleMonth\n    },\n    enableYear() {\n      return this.visibleYear\n    },\n    visiblePrev() {\n      if (!this.dateRange) {\n        const endOf = this.today.subtract(1, \'month\').endOf(\'month\')\n        const diff = this.startDatepicker.diff(endOf, \'day\')\n        return diff < this.today.daysInMonth() - this.today.$D\n      }\n      return true\n    },\n    visibleNext() {\n      if (!this.dateRange && this.endDate) {\n        const startOf = this.today.add(1, \'month\').startOf(\'month\')\n        return this.endDatepicker.diff(startOf, \'day\') > 0\n      }\n      return true\n    },\n  },\n  watch: {\n    showPicker(prev, next) {\n      if (prev) {\n        this.visibleMonth = next\n        this.visibleYear = next\n      }\n    },\n  },\n  mounted() {\n    if (this.init) this.emit()\n  },\n  methods: {\n    dayjs,\n    emit() {\n      this.$emit(\'change\', this.today.format(this.formatDate))\n    },\n    changePicker(date) {\n      this.today = date\n      this.emit()\n      this.showPicker = !this.showPicker\n    },\n    onPrevious() {\n      if (this.visiblePrev) {\n        const today = this.today\n          .set(\'month\', this.today.$M === 0 ? 11 : this.today.$M - 1)\n          .set(\'year\', this.today.$M === 0 ? this.today.$y - 1 : this.today.$y)\n        if (this.possibleDate(today)) {\n          this.today = today\n        } else {\n          this.today = this.startDatepicker\n        }\n        this.emit()\n      }\n    },\n    onNext() {\n      if (this.visibleNext) {\n        const today = this.today\n          .set(\'month\', (this.today.$M + 1) % 12)\n          .set(\'year\', this.today.$M === 11 ? this.today.$y + 1 : this.today.$y)\n        if (this.possibleDate(today)) {\n          this.today = today\n        } else {\n          this.today = this.endDatepicker\n        }\n        this.emit()\n      }\n    },\n    possibleStartDate(date) {\n      return this.dateRange\n        ? true\n        : date.isSameOrAfter(this.startDatepicker, \'day\')\n    },\n    possibleEndDate(date) {\n      if (this.endDate) {\n        return this.dateRange\n          ? true\n          : date.isSameOrBefore(this.endDatepicker, \'day\')\n      }\n      return false\n    },\n    possibleDate(date) {\n      if (this.endDate) {\n        return this.possibleStartDate(date) && this.possibleEndDate(date)\n      }\n      return this.possibleStartDate(date)\n    },\n    holidayDate(date) {\n      return !!(date.$events && date.$events.holiday)\n    },\n    toggleMonth() {\n      this.visibleMonth = !this.visibleMonth\n      if (this.visibleMonth) {\n        this.visibleYear = false\n      }\n    },\n    toggleYear() {\n      this.visibleYear = !this.visibleYear\n      if (this.visibleYear) {\n        this.visibleMonth = false\n      }\n    },\n    setMonth(month) {\n      if (this.possibleDate(this.today.set(\'month\', month))) {\n        this.today = this.today.set(\'month\', month)\n      } else {\n        this.today = this.startDatepicker\n      }\n      this.emit()\n      this.toggleMonth()\n    },\n    setYear(year) {\n      if (this.possibleDate(this.today.set(\'year\', year))) {\n        this.today = this.today.set(\'year\', year)\n      } else {\n        this.today = this.startDatepicker\n      }\n      this.emit()\n      this.toggleYear()\n    },\n    onAway() {\n      this.showPicker = false\n    },\n    onFeedBack() {\n      this.showPicker = true\n    },\n  },\n}\n</script>\n\n<style scoped>\n#v-tailwind-picker {\n  top: 95%;\n}\n\n#v-tailwind-picker .w-1\\/7 {\n  width: 14.285714%;\n}\n\n#v-tailwind-picker .w-88 {\n  width: 22rem;\n}\n\n#v-tailwind-picker .text-xxs {\n  font-size: 0.6rem;\n}\n\n#v-tailwind-picker .my-2px {\n  margin-top: 2px;\n  margin-bottom: 2px;\n}\n\n#v-tailwind-picker:not(.inline-mode)::before {\n  content: \'\';\n  width: 14px;\n  height: 14px;\n  z-index: 10;\n  top: -7px;\n  left: 12px;\n  border-radius: 2px;\n  border-color: currentColor;\n  position: absolute;\n  display: block;\n  background-color: var(--bg-tailwind-picker);\n  border-left-width: 1px;\n  border-top-width: 1px;\n  transform: rotate(45deg);\n}\n\n#v-tailwind-picker .smooth-scrolling {\n  height: 255px;\n  max-height: 255px;\n}\n\n#v-tailwind-picker .smooth-scrolling::-webkit-scrollbar {\n  width: 4px;\n}\n\n#v-tailwind-picker .smooth-scrolling ::-webkit-scrollbar-thumb {\n  border-radius: 8px;\n  background-color: rgba(0, 0, 0, 0.1);\n}\n\n.v-tailwind-picker-enter-active,\n.v-tailwind-picker-leave-active {\n  transition: all 0.1s;\n}\n\n.v-tailwind-picker-enter,\n.v-tailwind-picker-leave-to {\n  opacity: 0;\n  transform: translateY(15px);\n}\n\n.v-tailwind-picker-body-enter-active,\n.v-tailwind-picker-body-leave-active {\n  transition: all 0.2s;\n}\n\n.v-tailwind-picker-body-enter,\n.v-tailwind-picker-body-leave-to {\n  opacity: 0;\n  transform: translateY(-15px);\n}\n\n.v-tailwind-picker-months-enter-active,\n.v-tailwind-picker-months-leave-active {\n  transition: all 0.2s;\n}\n\n.v-tailwind-picker-months-enter,\n.v-tailwind-picker-months-leave-to {\n  opacity: 0;\n  transform: translateY(-15px);\n}\n\n.v-tailwind-picker-years-enter-active,\n.v-tailwind-picker-years-leave-active {\n  transition: all 0.2s;\n}\n\n.v-tailwind-picker-years-enter,\n.v-tailwind-picker-years-leave-to {\n  opacity: 0;\n  transform: translateY(-15px);\n}\n\n.v-tailwind-picker-footer-enter-active,\n.v-tailwind-picker-footer-leave-active {\n  transition: all 0.2s;\n}\n\n.v-tailwind-picker-footer-enter,\n.v-tailwind-picker-footer-leave-to {\n  opacity: 0;\n  transform: translateY(-15px);\n}\n</style>\n',
+      ],
+    },
+    media: undefined,
+  })
+}
+/* scoped */
+var __vue_scope_id__ = 'data-v-2363b92c'
+/* module identifier */
+var __vue_module_identifier__ = undefined
+/* functional template */
+var __vue_is_functional_template__ = false
+/* style inject SSR */
+
+/* style inject shadow dom */
+
+var __vue_component__ = /*#__PURE__*/ normalizeComponent(
+  { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
+  __vue_inject_styles__,
+  __vue_script__,
+  __vue_scope_id__,
+  __vue_is_functional_template__,
+  __vue_module_identifier__,
+  false,
+  createInjector,
+  undefined,
+  undefined,
+)
+
+// Import vue component
+
+// Declare install function executed by Vue.use()
+function install(Vue) {
+  if (install.installed) {
+    return
+  }
+  install.installed = true
+  Vue.component('VueTailwindPicker', __vue_component__)
+}
+
+// Create module definition for Vue.use()
+var plugin = {
+  install: install,
+}
+
+// Auto-install when vue is found (eg. in browser via <script> tag)
+var GlobalVue = null
+if (typeof window !== 'undefined') {
+  GlobalVue = window.Vue
+} else if (typeof global !== 'undefined') {
+  GlobalVue = global.Vue
+}
+if (GlobalVue) {
+  GlobalVue.use(plugin)
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (__vue_component__);
+
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -15996,144 +18063,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/AllTasks.vue":
-/*!**********************************************!*\
-  !*** ./resources/js/components/AllTasks.vue ***!
-  \**********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _AllTasks_vue_vue_type_template_id_673c0558___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AllTasks.vue?vue&type=template&id=673c0558& */ "./resources/js/components/AllTasks.vue?vue&type=template&id=673c0558&");
-/* harmony import */ var _AllTasks_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AllTasks.vue?vue&type=script&lang=js& */ "./resources/js/components/AllTasks.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _AllTasks_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _AllTasks_vue_vue_type_template_id_673c0558___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _AllTasks_vue_vue_type_template_id_673c0558___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/AllTasks.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/AllTasks.vue?vue&type=script&lang=js&":
-/*!***********************************************************************!*\
-  !*** ./resources/js/components/AllTasks.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AllTasks_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./AllTasks.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AllTasks.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AllTasks_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/AllTasks.vue?vue&type=template&id=673c0558&":
-/*!*****************************************************************************!*\
-  !*** ./resources/js/components/AllTasks.vue?vue&type=template&id=673c0558& ***!
-  \*****************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AllTasks_vue_vue_type_template_id_673c0558___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./AllTasks.vue?vue&type=template&id=673c0558& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AllTasks.vue?vue&type=template&id=673c0558&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AllTasks_vue_vue_type_template_id_673c0558___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AllTasks_vue_vue_type_template_id_673c0558___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
-/***/ "./resources/js/components/CompletedTasks.vue":
-/*!****************************************************!*\
-  !*** ./resources/js/components/CompletedTasks.vue ***!
-  \****************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _CompletedTasks_vue_vue_type_template_id_0dbe7dae___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CompletedTasks.vue?vue&type=template&id=0dbe7dae& */ "./resources/js/components/CompletedTasks.vue?vue&type=template&id=0dbe7dae&");
-/* harmony import */ var _CompletedTasks_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CompletedTasks.vue?vue&type=script&lang=js& */ "./resources/js/components/CompletedTasks.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _CompletedTasks_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _CompletedTasks_vue_vue_type_template_id_0dbe7dae___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _CompletedTasks_vue_vue_type_template_id_0dbe7dae___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/CompletedTasks.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/CompletedTasks.vue?vue&type=script&lang=js&":
-/*!*****************************************************************************!*\
-  !*** ./resources/js/components/CompletedTasks.vue?vue&type=script&lang=js& ***!
-  \*****************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CompletedTasks_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./CompletedTasks.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CompletedTasks.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CompletedTasks_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/CompletedTasks.vue?vue&type=template&id=0dbe7dae&":
-/*!***********************************************************************************!*\
-  !*** ./resources/js/components/CompletedTasks.vue?vue&type=template&id=0dbe7dae& ***!
-  \***********************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CompletedTasks_vue_vue_type_template_id_0dbe7dae___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./CompletedTasks.vue?vue&type=template&id=0dbe7dae& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CompletedTasks.vue?vue&type=template&id=0dbe7dae&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CompletedTasks_vue_vue_type_template_id_0dbe7dae___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CompletedTasks_vue_vue_type_template_id_0dbe7dae___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
 /***/ "./resources/js/components/TasksAppPanel.vue":
 /*!***************************************************!*\
   !*** ./resources/js/components/TasksAppPanel.vue ***!
@@ -16203,17 +18132,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/UncompletedTasks.vue":
-/*!******************************************************!*\
-  !*** ./resources/js/components/UncompletedTasks.vue ***!
-  \******************************************************/
+/***/ "./resources/js/components/TasksAssignedToMe.vue":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/TasksAssignedToMe.vue ***!
+  \*******************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _UncompletedTasks_vue_vue_type_template_id_645f9f47___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UncompletedTasks.vue?vue&type=template&id=645f9f47& */ "./resources/js/components/UncompletedTasks.vue?vue&type=template&id=645f9f47&");
-/* harmony import */ var _UncompletedTasks_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UncompletedTasks.vue?vue&type=script&lang=js& */ "./resources/js/components/UncompletedTasks.vue?vue&type=script&lang=js&");
+/* harmony import */ var _TasksAssignedToMe_vue_vue_type_template_id_0137e8b4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TasksAssignedToMe.vue?vue&type=template&id=0137e8b4& */ "./resources/js/components/TasksAssignedToMe.vue?vue&type=template&id=0137e8b4&");
+/* harmony import */ var _TasksAssignedToMe_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TasksAssignedToMe.vue?vue&type=script&lang=js& */ "./resources/js/components/TasksAssignedToMe.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -16223,9 +18152,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _UncompletedTasks_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _UncompletedTasks_vue_vue_type_template_id_645f9f47___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _UncompletedTasks_vue_vue_type_template_id_645f9f47___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _TasksAssignedToMe_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TasksAssignedToMe_vue_vue_type_template_id_0137e8b4___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _TasksAssignedToMe_vue_vue_type_template_id_0137e8b4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -16235,38 +18164,107 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/UncompletedTasks.vue"
+component.options.__file = "resources/js/components/TasksAssignedToMe.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/UncompletedTasks.vue?vue&type=script&lang=js&":
+/***/ "./resources/js/components/TasksAssignedToMe.vue?vue&type=script&lang=js&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/TasksAssignedToMe.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TasksAssignedToMe_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./TasksAssignedToMe.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TasksAssignedToMe.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TasksAssignedToMe_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/TasksAssignedToMe.vue?vue&type=template&id=0137e8b4&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/TasksAssignedToMe.vue?vue&type=template&id=0137e8b4& ***!
+  \**************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TasksAssignedToMe_vue_vue_type_template_id_0137e8b4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./TasksAssignedToMe.vue?vue&type=template&id=0137e8b4& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TasksAssignedToMe.vue?vue&type=template&id=0137e8b4&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TasksAssignedToMe_vue_vue_type_template_id_0137e8b4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TasksAssignedToMe_vue_vue_type_template_id_0137e8b4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/TasksCreatedByMe.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/components/TasksCreatedByMe.vue ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TasksCreatedByMe_vue_vue_type_template_id_a0e8ce58___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TasksCreatedByMe.vue?vue&type=template&id=a0e8ce58& */ "./resources/js/components/TasksCreatedByMe.vue?vue&type=template&id=a0e8ce58&");
+/* harmony import */ var _TasksCreatedByMe_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TasksCreatedByMe.vue?vue&type=script&lang=js& */ "./resources/js/components/TasksCreatedByMe.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _TasksCreatedByMe_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TasksCreatedByMe_vue_vue_type_template_id_a0e8ce58___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _TasksCreatedByMe_vue_vue_type_template_id_a0e8ce58___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/TasksCreatedByMe.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/TasksCreatedByMe.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************!*\
-  !*** ./resources/js/components/UncompletedTasks.vue?vue&type=script&lang=js& ***!
+  !*** ./resources/js/components/TasksCreatedByMe.vue?vue&type=script&lang=js& ***!
   \*******************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UncompletedTasks_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./UncompletedTasks.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UncompletedTasks.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UncompletedTasks_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TasksCreatedByMe_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./TasksCreatedByMe.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TasksCreatedByMe.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TasksCreatedByMe_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/UncompletedTasks.vue?vue&type=template&id=645f9f47&":
+/***/ "./resources/js/components/TasksCreatedByMe.vue?vue&type=template&id=a0e8ce58&":
 /*!*************************************************************************************!*\
-  !*** ./resources/js/components/UncompletedTasks.vue?vue&type=template&id=645f9f47& ***!
+  !*** ./resources/js/components/TasksCreatedByMe.vue?vue&type=template&id=a0e8ce58& ***!
   \*************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UncompletedTasks_vue_vue_type_template_id_645f9f47___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./UncompletedTasks.vue?vue&type=template&id=645f9f47& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/UncompletedTasks.vue?vue&type=template&id=645f9f47&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UncompletedTasks_vue_vue_type_template_id_645f9f47___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TasksCreatedByMe_vue_vue_type_template_id_a0e8ce58___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./TasksCreatedByMe.vue?vue&type=template&id=a0e8ce58& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TasksCreatedByMe.vue?vue&type=template&id=a0e8ce58&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TasksCreatedByMe_vue_vue_type_template_id_a0e8ce58___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UncompletedTasks_vue_vue_type_template_id_645f9f47___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TasksCreatedByMe_vue_vue_type_template_id_a0e8ce58___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

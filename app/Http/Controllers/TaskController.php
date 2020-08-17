@@ -15,12 +15,15 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        $filter = $request->has('filter') ? $request->get('filter') : 'priority';
-        $order = $request->has('order') ? $request->get('order') : 'desc';
+        $filter = $request->has('filter')
+            ? $request->get('filter')
+            : 'priority';
+
+        $order = $request->has('order')
+            ? $request->get('order')
+            : 'desc';
 
         $tasks = Task::with(['owner', 'assignee'])
-            ->assignedToMe()
-            ->createdByMe()
             ->orderBy($filter, $order)
             ->get();
 
@@ -35,7 +38,9 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $task = Task::create($request->all());
+
+        return new TaskResource($task);
     }
 
     /**

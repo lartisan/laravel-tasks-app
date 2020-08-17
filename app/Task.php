@@ -69,7 +69,7 @@ class Task extends Model
      */
     public function scopeAssignedToMe(Builder $query)
     {
-        return $query->orWhere('assigned_to', auth()->id());
+        return $query->where('assigned_to', auth()->id());
     }
 
     /**
@@ -80,7 +80,7 @@ class Task extends Model
      */
     public function scopeCreatedByMe(Builder $query)
     {
-        return $query->orWhere('created_by', auth()->id());
+        return $query->where('created_by', auth()->id());
     }
 
 }
