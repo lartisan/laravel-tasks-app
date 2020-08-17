@@ -1,0 +1,80 @@
+<template>
+    <div class="mb-4 flex justify-between items-center">
+        <form action="" @submit.prevent="createNewTask" class="w-full">
+            <div class="flex flex-wrap -mx-3 mb-6">
+                <div class=" md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="title">Title</label>
+                    <input v-model="formData.title" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-4 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="title" type="text" placeholder="Title" value="">
+                </div>
+                <div class="inline-block relative w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="priority">Priority</label>
+                    <select v-model="formData.priority" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-4 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="assigned_to">
+                        <option value="1">visible</option>
+                        <option value="0">hidden</option>
+                    </select>
+                    <div class="pointer-events-none absolute right-0 top-0 flex items-center px-6 mt-10 text-gray-700">
+                        <svg class="fill-current h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="inline-block relative w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="assigned_to">Assigned To</label>
+                    <select v-model="formData.assigned_to" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-4 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="assigned_to">
+                        <option value="1">visible</option>
+                        <option value="0">hidden</option>
+                    </select>
+                    <div class="pointer-events-none absolute right-0 top-0 flex items-center px-6 mt-10 text-gray-700">
+                        <svg class="fill-current h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                </div>
+                <div class="inline-block relative w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="due_date">Due Date</label>
+                    <select v-model="formData.due_date" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-4 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="due_date">
+                        <option value="1">visible</option>
+                        <option value="0">hidden</option>
+                    </select>
+                    <div class="pointer-events-none absolute right-0 top-0 flex items-center px-6 mt-10 text-gray-700">
+                        <svg class="fill-current h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center">
+                <button class="shadow bg-red-500 hover:bg-red-400 focus:shadow-outline focus:outline-none uppercase tracking-wide text-white text-xs font-bold py-2 px-4 rounded" type="submit">Save</button>
+                <a class="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none uppercase tracking-wide text-white text-xs font-bold py-2 px-4 ml-4 rounded" href="#">Cancel</a>
+            </div>
+
+        </form>
+    </div>
+</template>
+
+<script>
+import axios from 'axios'
+export default {
+    name: "AllTasks",
+    data() {
+        return {
+            formData: {
+                title: '',
+                created_by: '',
+                assigned_to: '',
+                priority: '',
+                due_date: '',
+                errors: []
+            }
+        }
+    },
+    methods: {
+        createNewTask()
+        {
+            axios.get('/sanctum/csrf-cookie', { withCredentials: true }).then(resp => {
+                axios.post('tasks', this.formData).then(resp => {
+                    console.log(resp.data)
+                })
+            })
+        }
+    }
+}
+</script>
