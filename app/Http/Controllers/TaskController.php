@@ -35,7 +35,7 @@ class TaskController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return TaskResource
      */
     public function store(Request $request)
     {
@@ -49,7 +49,7 @@ class TaskController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Task  $task
-     * @return \Illuminate\Http\Response
+     * @return TaskResource
      */
     public function update(Request $request, Task $task)
     {
@@ -64,7 +64,7 @@ class TaskController extends Controller
      * Gate defined in \App\Providers\AuthServiceProvider
      *
      * @param  \App\Task  $task
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Task $task)
     {
