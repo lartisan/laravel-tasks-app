@@ -17698,8 +17698,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/cristianiosif/Sites/laravel/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/cristianiosif/Sites/laravel/resources/css/app.css */"./resources/css/app.css");
+__webpack_require__(/*! /Users/cristianiosif/Sites/laravel-tasks-app/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/cristianiosif/Sites/laravel-tasks-app/resources/css/app.css */"./resources/css/app.css");
 
 
 /***/ })
