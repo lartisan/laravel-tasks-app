@@ -33,13 +33,6 @@
         <div class="panel-body text-sm px-10 py-6">
             <component :is="currentPanel" :currentUser="currentUser"></component>
         </div>
-
-        <!-- Panel Footer -->
-<!--        <div class="panel-footer text-gray-500 border-t border-gray-300 text-sm px-10 py-6 flex justify-between items-center">-->
-<!--            <p>All Tasks: 100</p>-->
-<!--            <p>Completed Tasks: 73</p>-->
-<!--            <p>Uncompleted Tasks: 27</p>-->
-<!--        </div>-->
     </div>
 </template>
 
@@ -66,8 +59,9 @@ export default {
         }
     },
     created() {
-        if( localStorage.getItem("current-panel") == 'null' )
+        if( localStorage.getItem("current-panel") === null ) {
             this.currentPanel = 'AllMyTasks'
+        }
         else
             this.currentPanel = localStorage.getItem("current-panel")
     }

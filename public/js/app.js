@@ -2264,13 +2264,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2296,7 +2289,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    if (localStorage.getItem("current-panel") == 'null') this.currentPanel = 'AllMyTasks';else this.currentPanel = localStorage.getItem("current-panel");
+    if (localStorage.getItem("current-panel") === null) {
+      this.currentPanel = 'AllMyTasks';
+    } else this.currentPanel = localStorage.getItem("current-panel");
   }
 });
 
@@ -3606,9 +3601,9 @@ var render = function() {
           { staticClass: "text-grey-darkest uppercase text-md font-bold" },
           [
             _vm._v(
-              "\n                " +
+              "\n            " +
                 _vm._s(_vm._f("titleFromCamel")(_vm.currentPanel)) +
-                "\n            "
+                "\n        "
             )
           ]
         ),
@@ -3683,9 +3678,9 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                        " +
+                        "\n                    " +
                           _vm._s(panel) +
-                          "\n                    "
+                          "\n                "
                       )
                     ]
                   )
